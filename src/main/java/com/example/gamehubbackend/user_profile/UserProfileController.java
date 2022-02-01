@@ -1,5 +1,6 @@
 package com.example.gamehubbackend.user_profile;
 
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,8 @@ public class UserProfileController {
     }
 
     @PostMapping
-    public String createUserProfile() {
+    public String createUserProfile(@RequestBody UserProfile userProfile) {
+        userProfileService.createUserProfile(userProfile);
         return "user profile created successfully";
     }
 }

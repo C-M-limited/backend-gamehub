@@ -2,6 +2,8 @@ package com.example.gamehubbackend.user_profile;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -19,8 +21,11 @@ public class UserProfile {
     private String email;
     private String password;
     private Boolean verified;
+    @CreationTimestamp
     private Timestamp last_login;
+    @CreationTimestamp
     private Timestamp created_at;
+    @LastModifiedDate
     private Timestamp updated_at;
 
     public UserProfile(Long user_id, int role_id, String user_name, String email, String password, Boolean verified, Timestamp last_login, Timestamp created_at, Timestamp updated_at) {

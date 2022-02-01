@@ -22,7 +22,7 @@ public class RoleService {
 
     // POST
     public void createRole(Role role) {
-        Optional<Role> roleOptional = roleRepository.findRoleByID(role.getRole_id());
+        Optional<Role> roleOptional = roleRepository.findRoleByName(role.getName());
         if (roleOptional.isPresent()) {
             throw new IllegalStateException("role already exist");
         }
