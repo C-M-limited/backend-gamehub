@@ -10,4 +10,7 @@ import java.util.Optional;
 public interface ConsoleBrandRepository extends JpaRepository<ConsoleBrand, Integer> {
     @Query("SELECT s FROM ConsoleBrand s WHERE s.console_brand_name = ?1")
     Optional<ConsoleBrand> findBrandByName(String name);
+
+    @Query("SELECT s FROM ConsoleBrand s where s.console_brand_id= ?1")
+    Optional<ConsoleBrand> findBrandByID(Integer brand_id);
 }

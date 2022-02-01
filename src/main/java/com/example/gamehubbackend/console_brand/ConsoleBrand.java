@@ -1,6 +1,9 @@
 package com.example.gamehubbackend.console_brand;
 
+import com.example.gamehubbackend.console.Console;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table
@@ -17,6 +20,10 @@ public class ConsoleBrand {
     )
     private int console_brand_id;
     private String console_brand_name;
+
+    @OneToMany(targetEntity = Console.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "ConsoleList_FK",referencedColumnName = "console_brand_id")
+    private List<Console> consoles;
 
     public ConsoleBrand(){
 
