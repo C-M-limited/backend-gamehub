@@ -10,3 +10,5 @@ docker run --name pgadmin -e PGADMIN_DEFAULT_EMAIL=chrisleebed@gamil.com -e PGAD
 
 ## Learning Material:
 <a href="https://www.codejava.net/frameworks/spring-boot/connect-to-postgresql-database-examples">Create Model to Postgres</a>
+<p/>
+<a href="https://www.youtube.com/watch?v=f5bdUjEIbrg">JPA Relationships Tutorial</a>
