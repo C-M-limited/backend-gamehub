@@ -2,13 +2,12 @@ package com.example.gamehubbackend.console_brand;
 
 import javax.persistence.*;
 
-
 @Entity
 @Table
 public class ConsoleBrand {
     @Id
     @SequenceGenerator(
-            name="user_sequence",
+            name="console_brand_sequence",
             sequenceName = "console_brand_sequence",
             allocationSize = 1
     )
