@@ -14,11 +14,11 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long role_id;
-    private String role;
+    private String name;
 
     public Role(Long role_id, String role) {
         this.role_id = role_id;
-        this.role = role;
+        this.name = role;
     }
 
     public Role() {
@@ -29,7 +29,7 @@ public class Role {
     public String toString() {
         return "Role{" +
                 "role_id=" + role_id +
-                ", role='" + role + '\'' +
+                ", role='" + name + '\'' +
                 '}';
     }
 }
