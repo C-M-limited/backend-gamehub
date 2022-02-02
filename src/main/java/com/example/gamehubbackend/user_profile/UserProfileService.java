@@ -23,7 +23,7 @@ public class UserProfileService {
 
     public UserProfile getUserProfiles(Long user_id) {
         Optional<UserProfile> userProfileOptional = userProfileRepository.findUserProfileByID(user_id);
-        if (!userProfileOptional.isPresent()) {
+        if (userProfileOptional.isEmpty()) {
             throw new IllegalStateException("the user profile does not exist");
         }
         return userProfileRepository.findUserProfileByID(user_id).get();
@@ -49,7 +49,7 @@ public class UserProfileService {
     // DELETE
     public void deleteUserProfile(UserProfile userProfile) {
         Optional<UserProfile> userProfileOptional = userProfileRepository.findUserProfileByID(userProfile.getUser_id());
-        if (!userProfileOptional.isPresent()) {
+        if (userProfileOptional.isEmpty()) {
             throw new IllegalStateException("the user profile does not exist");
         }
     }
