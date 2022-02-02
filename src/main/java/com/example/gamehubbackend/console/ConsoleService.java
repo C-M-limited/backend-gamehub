@@ -25,10 +25,6 @@ public class ConsoleService {
         return consoleRepository.findAll();
     }
 
-    public Optional<Console> getAllConsolesOFaBrand(int console_brand_id) {
-        return consoleRepository.findConsoleByID(console_brand_id);
-    }
-
     public Console addConsole(Console console) {
         Optional<ConsoleBrand> optionalConsoleBrand = consoleBrandRepository.findById(console.getConsole_brand().getId());
         if (!optionalConsoleBrand.isPresent()) {
@@ -44,12 +40,17 @@ public class ConsoleService {
 
     @Transactional
     public Console updateConsole(Console console) {
-        Long consoleID = console.getId();
+        int consoleID = console.getId();
         String consoleName = console.getName();
-        ConsoleBrand consoleBrand = console.getConsole_brand();
-        int consoleBrandId = consoleBrand.getId();
-        Console consoleOnDB= consoleRepository.findConsoleByID(consoleBrandId)
-                .orElseThrow(()->new IllegalStateException(("console with id "+ consoleBrandId +"does not exits")));
+        //System.out.println(console);
+        int consoleBrandId = console.getConsole_brand().getId();
+        Console consoleOnDB= consoleRepository.findConsoleByID(consoleID)
+                .orElseThrow(()->new IllegalStateException(("console with id "+ consoleID +"does not exits")));
+        //user going to change to console brand)
+        if (consoleOnDB.getConsole_Brand_Id()!=consoleBrandId){
+            //TODO:Edit
+        }
+
         if (consoleName!= null &&
                 consoleName.length()>0 &&
                 !Objects.equals(consoleOnDB.getName(),consoleName)){
