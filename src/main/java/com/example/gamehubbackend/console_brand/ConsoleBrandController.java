@@ -1,9 +1,9 @@
 package com.example.gamehubbackend.console_brand;
 
+import com.example.gamehubbackend.console.Console;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
@@ -22,20 +22,23 @@ public class ConsoleBrandController {
     }
 
     @PostMapping(path = "")
-    public String addBrands(@RequestBody ConsoleBrand brand) {
-        consoleBrandService.addBrands(brand);
-        return ("Success");
+    public ConsoleBrand addBrands(@RequestBody ConsoleBrand brand) {
+        return consoleBrandService.addBrands(brand);
     }
 
     @PutMapping(path="")
-    public String updateBrands(@RequestBody ConsoleBrand brand){
-        consoleBrandService.updateBrands(brand);
-        return ("Success");
+    public ConsoleBrand updateBrands(@RequestBody ConsoleBrand brand){
+        return consoleBrandService.updateBrands(brand);
     }
 
     @DeleteMapping(path="{brand_id}")
     public String deleteBrands(@PathVariable("brand_id") int brand_id){
         consoleBrandService.deleteBrands(brand_id);
         return ("Success Delete");
+    }
+    @PostMapping(path="/console")
+    public String addConsole(@RequestBody Console console) {
+        consoleBrandService.addConsole(console);
+        return ("Success");
     }
 }

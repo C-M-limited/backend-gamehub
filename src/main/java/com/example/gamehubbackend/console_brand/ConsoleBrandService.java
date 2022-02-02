@@ -1,6 +1,7 @@
 package com.example.gamehubbackend.console_brand;
 
 import com.example.gamehubbackend.console.Console;
+import com.example.gamehubbackend.console.ConsoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,34 +13,39 @@ import java.util.Optional;
 @Service
 public class ConsoleBrandService {
     private final ConsoleBrandRepository consoleBrandRepository;
+    private final ConsoleRepository consoleRepository;
 
     @Autowired
-    public ConsoleBrandService(ConsoleBrandRepository consoleBrandRepository){
+    public ConsoleBrandService(ConsoleBrandRepository consoleBrandRepository, ConsoleRepository consoleRepository){
         this.consoleBrandRepository=consoleBrandRepository;
+        this.consoleRepository = consoleRepository;
     }
     public List<ConsoleBrand> getAllBrands() {
         return consoleBrandRepository.findAll();
     }
 
-    public void addBrands(ConsoleBrand brand) {
-        Optional<ConsoleBrand> brandOptional= consoleBrandRepository.findBrandByName(brand.getConsole_brand_name());
+    public ConsoleBrand addBrands(ConsoleBrand brand) {
+        Optional<ConsoleBrand> brandOptional= consoleBrandRepository.findBrandByName(brand.getName());
         if (brandOptional.isPresent()){
             throw  new IllegalStateException("the brand already exits");
         }
-        consoleBrandRepository.save(brand);
+        return consoleBrandRepository.save(brand);
     }
 
     @Transactional
-    public void updateBrands(ConsoleBrand brand) {
-        int brandID = brand.getConsole_brand_id();
-        String brandName = brand.getConsole_brand_name();
+    public ConsoleBrand updateBrands(ConsoleBrand brand) {
+        int brandID = brand.getId();
+        String brandName = brand.getName();
         ConsoleBrand brandOnDB = consoleBrandRepository.findBrandByID(brandID)
-                .orElseThrow(()->new IllegalStateException(("console with id "+ brandID +"does not exits")));
+                .orElseThrow(()->new IllegalStateException(("console with id "+ brandID +" does not exits")));
         if (brandName!= null &&
                 brandName.length()>0 &&
-                !Objects.equals(brandOnDB.getConsole_brand_name(),brandName)){
-            brandOnDB.setConsole_brand_name(brandName);
+                !Objects.equals(brandOnDB.getName(),brandName)){
+            brandOnDB.setName(brandName);
+            return brandOnDB;
         }
+        throw new IllegalStateException("Not valid name");
+
     }
 
     public void deleteBrands(int brand_id) {
@@ -51,4 +57,10 @@ public class ConsoleBrandService {
     }
 
 
+    public void addConsole(Console console) {
+        Optional<ConsoleBrand> brandOptional= consoleBrandRepository.findBrandByID(1);
+        if (brandOptional.isPresent()){
+
+        }
+    }
 }

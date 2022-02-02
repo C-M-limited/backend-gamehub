@@ -1,10 +1,10 @@
 package com.example.gamehubbackend.console;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/v1/console")
@@ -21,17 +21,21 @@ public class ConsoleController {
         return consoleService.getAllConsoles();
     }
 
+    @GetMapping(path="{console_brand_id}")
+    public Optional<Console> getAllConsolesOFaBrand(@PathVariable("console_brand_id") int console_brand_id){
+        return consoleService.getAllConsolesOFaBrand(console_brand_id);
+    }
+
+
     @PostMapping(path="")
-    public String addConsole(@RequestBody Console console){
-        consoleService.addConsole(console);
-        return ("Success");
+    public Console addConsole(@RequestBody Console console){
+        return consoleService.addConsole(console);
     }
     @PutMapping(path="")
-    public String editConsole(@RequestBody Console console){
-        consoleService.updateConsole(console);
-        return ("Success");
+    public Console editConsole(@RequestBody Console console){
+        return consoleService.updateConsole(console);
     }
-    @DeleteMapping(path="{brand_id}")
+    @DeleteMapping(path="{console_id}")
     public String deleteConsole(@PathVariable("console_id") int console_id){
         consoleService.deleteConsole(console_id);
         return ("Success Delete");

@@ -1,6 +1,7 @@
 package com.example.gamehubbackend.console;
 
 import com.example.gamehubbackend.console_brand.ConsoleBrand;
+import com.example.gamehubbackend.console_brand.ConsoleBrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,37 +13,50 @@ import java.util.Optional;
 @Service
 public class ConsoleService {
     private final ConsoleRepository consoleRepository;
+    private final ConsoleBrandRepository consoleBrandRepository;
 
     @Autowired
-    public ConsoleService(ConsoleRepository consoleRepository) {
+    public ConsoleService(ConsoleRepository consoleRepository, ConsoleBrandRepository consoleBrandRepository) {
         this.consoleRepository = consoleRepository;
+        this.consoleBrandRepository = consoleBrandRepository;
     }
 
     public List<Console> getAllConsoles() {
         return consoleRepository.findAll();
     }
 
-    public void addConsole(Console console) {
-        Optional<Console> consoleOptional= consoleRepository.findConsoleByName(console.getConsole_name());
+    public Optional<Console> getAllConsolesOFaBrand(int console_brand_id) {
+        return consoleRepository.findConsoleByID(console_brand_id);
+    }
+
+    public Console addConsole(Console console) {
+        Optional<ConsoleBrand> optionalConsoleBrand = consoleBrandRepository.findById(console.getConsole_brand().getId());
+        if (!optionalConsoleBrand.isPresent()) {
+            throw new IllegalStateException("Console brand does not exits");
+        }
+        Optional<Console> consoleOptional= consoleRepository.findConsoleByName(console.getName());
         if (consoleOptional.isPresent()){
             throw  new IllegalStateException("the console already exits");
         }
-        consoleRepository.save(console);
+        console.setConsole_brand(optionalConsoleBrand.get());
+        return consoleRepository.save(console);
     }
 
     @Transactional
-    public void updateConsole(Console console) {
-        int consoleID = console.getConsole_id();
-        String consoleName = console.getConsole_name();
-        int consoleBrandId = console.getConsole_brand_id();
-        Console consoleOnDB= consoleRepository.findConsoleByID(consoleID)
-                .orElseThrow(()->new IllegalStateException(("console with id "+ consoleID +"does not exits")));
+    public Console updateConsole(Console console) {
+        Long consoleID = console.getId();
+        String consoleName = console.getName();
+        ConsoleBrand consoleBrand = console.getConsole_brand();
+        int consoleBrandId = consoleBrand.getId();
+        Console consoleOnDB= consoleRepository.findConsoleByID(consoleBrandId)
+                .orElseThrow(()->new IllegalStateException(("console with id "+ consoleBrandId +"does not exits")));
         if (consoleName!= null &&
                 consoleName.length()>0 &&
-                !Objects.equals(consoleOnDB.getConsole_name(),consoleName)){
-            consoleOnDB.setConsole_name(consoleName);
+                !Objects.equals(consoleOnDB.getName(),consoleName)){
+            consoleOnDB.setName(consoleName);
         }
-        consoleOnDB.setConsole_brand_id(consoleBrandId);
+        return consoleOnDB;
+//        consoleOnDB.setConsole_brand(consoleBrandId);
 
     }
 
@@ -53,4 +67,5 @@ public class ConsoleService {
         }
         consoleRepository.deleteById(console_id);
     }
+
 }

@@ -1,68 +1,58 @@
 package com.example.gamehubbackend.console;
 
+import com.example.gamehubbackend.console_brand.ConsoleBrand;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
+@Getter
+@Setter
 @Entity
-@Table
+@Table(name="console")
 public class Console {
     @Id
-    @SequenceGenerator(
-            name="console_sequence",
-            sequenceName = "console_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "console_sequence"
-    )
-    private int console_id;
-    private String console_name;
-    private int console_brand_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public Console() {
+    @Column(length = 50)
+    private String name;
+//(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "console_brand_id",nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private ConsoleBrand console_brand;
+
+    public ConsoleBrand getConsole_brand() {
+        return console_brand;
     }
 
-    public Console(int console_id, String console_name, int console_brand_id) {
-        this.console_id = console_id;
-        this.console_name = console_name;
-        this.console_brand_id = console_brand_id;
+    public int getConsoleBrandID(){
+        return console_brand.getId();
     }
 
-    public Console(String console_name, int console_brand_id) {
-        this.console_name = console_name;
-        this.console_brand_id = console_brand_id;
+    public void setConsole_brand(ConsoleBrand console_brand) {
+        this.console_brand = console_brand;
     }
 
-    public int getConsole_id() {
-        return console_id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Console )) return false;
+        return id != null && id.equals(((Console) o).getId());
     }
-
-    public void setConsole_id(int console_id) {
-        this.console_id = console_id;
-    }
-
-    public String getConsole_name() {
-        return console_name;
-    }
-
-    public void setConsole_name(String console_name) {
-        this.console_name = console_name;
-    }
-
-    public int getConsole_brand_id() {
-        return console_brand_id;
-    }
-
-    public void setConsole_brand_id(int console_brand_id) {
-        this.console_brand_id = console_brand_id;
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 
     @Override
     public String toString() {
         return "Console{" +
-                "console_id=" + console_id +
-                ", console_name='" + console_name + '\'' +
-                ", console_brand_id=" + console_brand_id +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", console_brand=" + console_brand +
                 '}';
     }
 }
