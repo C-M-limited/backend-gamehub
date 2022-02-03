@@ -20,9 +20,9 @@ public class GamesController {
     public List<Games> getAllGames(){
         return gamesService.getAllGames();
     }
-//TODO: not working this route , have to make sperate class to return
+    //TODO: to be edit not using object[]
     @GetMapping("/console_brand/{console_brand_id}")
-    public List<Games> getAllGamesByBrand(@PathVariable ("console_brand_id") int console_brand_id){
+    public List<Object[]> getAllGamesByBrand(@PathVariable ("console_brand_id") int console_brand_id){
         return gamesService.getAllGamesByBrand(console_brand_id);
     }
 

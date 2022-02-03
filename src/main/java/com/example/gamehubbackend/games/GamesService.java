@@ -32,7 +32,7 @@ public class GamesService {
         return gamesRepository.findAll();
     }
 
-    public List<Games> getAllGamesByBrand(int console_brand_id) {
+    public List<Object[]> getAllGamesByBrand(int console_brand_id) {
         Optional<ConsoleBrand> optionalConsoleBrand=consoleBrandRepository.findBrandByID(console_brand_id);
         if (!optionalConsoleBrand.isPresent()){
             throw new IllegalStateException("Console Brand does not exits");

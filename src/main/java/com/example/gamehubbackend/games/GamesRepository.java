@@ -12,9 +12,9 @@ public interface GamesRepository extends JpaRepository<Games,Long> {
 
     @Query ("select g from Games g where g.name=?1")
     Optional<Games> findGamesByName(String name);
-//TODO: not working
-    @Query ("SELECT g,c FROM Games g LEFT JOIN g.console c")
-    List<Games> findAllGamesByBrand(int console_brand_id);
+//TODO: to be edit not using object[]
+    @Query ("SELECT g FROM Games g left join g.console c where c.console_brand.id=?1")
+    List<Object[]> findAllGamesByBrand(int console_brand_id);
 
     @Query("select g from Games g where g.console.id=?1")
     List<Games> findAllGamesByConsole(int console_id);
