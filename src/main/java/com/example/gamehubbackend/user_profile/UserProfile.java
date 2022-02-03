@@ -1,26 +1,36 @@
 package com.example.gamehubbackend.user_profile;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @Table
 @Getter
 @Setter
-public class UserProfile {
+@EqualsAndHashCode
+@NoArgsConstructor
+@ToString
+public class UserProfile implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long user_id;
-    private int role_id;
-    private String user_name;
+    private Long id;
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
-    private Boolean verified;
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
+    private Boolean enabled = false;
+    private Boolean locked = false;
     @CreationTimestamp
     private Timestamp last_login;
     @CreationTimestamp
@@ -28,33 +38,47 @@ public class UserProfile {
     @LastModifiedDate
     private Timestamp updated_at;
 
-    public UserProfile(Long user_id, int role_id, String user_name, String email, String password, Boolean verified, Timestamp last_login, Timestamp created_at, Timestamp updated_at) {
-        this.user_id = user_id;
-        this.role_id = role_id;
-        this.user_name = user_name;
+    public UserProfile(String firstName, String lastName, String email, String password, UserRole role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.verified = verified;
-        this.last_login = last_login;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-    }
-
-    public UserProfile() {
+        this.role = role;
     }
 
     @Override
-    public String toString() {
-        return "UserProfile{" +
-                "user_id=" + user_id +
-                ", role_id=" + role_id +
-                ", user_name='" + user_name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", verified=" + verified +
-                ", last_login=" + last_login +
-                ", created_at=" + created_at +
-                ", updated_at=" + updated_at +
-                '}';
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(UserRole.USER.name());
+        return Collections.singletonList(authority);
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return !locked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 }
