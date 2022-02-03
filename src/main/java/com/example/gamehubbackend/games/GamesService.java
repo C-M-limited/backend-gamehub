@@ -1,0 +1,130 @@
+package com.example.gamehubbackend.games;
+
+import com.example.gamehubbackend.console.Console;
+import com.example.gamehubbackend.console.ConsoleRepository;
+import com.example.gamehubbackend.console_brand.ConsoleBrand;
+import com.example.gamehubbackend.console_brand.ConsoleBrandRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.transaction.Transactional;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Random;
+
+@Service
+public class GamesService {
+    private final GamesRepository gamesRepository;
+    private final ConsoleRepository consoleRepository;
+    private final ConsoleBrandRepository consoleBrandRepository;
+
+    public GamesService(GamesRepository gamesRepository, ConsoleRepository consoleRepository, ConsoleBrandRepository consoleBrandRepository) {
+        this.gamesRepository = gamesRepository;
+        this.consoleRepository = consoleRepository;
+        this.consoleBrandRepository = consoleBrandRepository;
+    }
+
+    public List<Games> getAllGames() {
+        return gamesRepository.findAll();
+    }
+
+    public List<Games> getAllGamesByBrand(int console_brand_id) {
+        Optional<ConsoleBrand> optionalConsoleBrand=consoleBrandRepository.findBrandByID(console_brand_id);
+        if (!optionalConsoleBrand.isPresent()){
+            throw new IllegalStateException("Console Brand does not exits");
+        }
+        return gamesRepository.findAllGamesByBrand(console_brand_id);
+    }
+
+    public List<Games> getAllGamesByConsole(int console_id) {
+        Optional<Console> optionalConsole=consoleRepository.findConsoleByID(console_id);
+        if (!optionalConsole.isPresent()){
+            throw new IllegalStateException("Console does not exits");
+        }
+        return gamesRepository.findAllGamesByConsole(console_id);
+    }
+
+    public Games addGames(String name, MultipartFile image, int console_id) {
+        //check console is exist
+        Optional<Console> optionalConsole = consoleRepository.findConsoleByID(console_id);
+        if (!optionalConsole.isPresent()) {
+            throw new IllegalStateException("Console does not exits");
+        }
+        //check name is not exist
+        Optional<Games> gamesOptional= gamesRepository.findGamesByName(name);
+        if (gamesOptional.isPresent()){
+            throw  new IllegalStateException("the games already exits");
+        }
+        //check the file type
+        String filename = image.getOriginalFilename();
+        if (!filename.matches("^.*(png)$")){
+            throw new IllegalStateException("Only png file is accepted");
+        }
+
+        //generate unique file name
+        Random random = new Random();
+        String newFileName = String.format("%s%s",System.currentTimeMillis(),random.nextInt(100000)+".png");
+        String pathName = "/Users/leeyathei/Documents/Project/GameHub/backend-gamehub/src/main/resources/"+ newFileName;
+        //save the image
+        try{
+            byte[] bytes = image.getBytes();
+            Files.write(Paths.get(pathName), bytes);
+        } catch (IOException e) {
+            throw  new IllegalStateException("the image uploading fail");
+        }
+        //save the game object
+        Games game = new Games();
+        game.setName(name);
+        game.setConsole(optionalConsole.get());
+        game.setImage_url(pathName);
+
+        return gamesRepository.save(game);
+    }
+
+    @Transactional
+    public Games editGames(long games_id, String name, MultipartFile image, int console_id) {
+        Games gameOnDB = gamesRepository.findById(games_id)
+                .orElseThrow(()->new IllegalStateException(("the games with id "+games_id+" does not exist")));
+        //edit game name
+        if (!(name != null && name.length()>0 && !Objects.equals(gameOnDB.getName(),name))){
+            throw new IllegalStateException("Not valid name");
+        }
+        gameOnDB.setName(name);
+        //edit console id
+        Optional<Console> consoleOptional= consoleRepository.findConsoleByID(console_id);
+        if (!consoleOptional.isPresent()){
+            throw new IllegalStateException("the console with id"+ console_id+"does not exits");
+        }
+        gameOnDB.setConsole(consoleOptional.get());
+        //MultipartFile
+        Random random = new Random();
+        String newFileName = String.format("%s%s",System.currentTimeMillis(),random.nextInt(100000)+".png");
+        String pathName = "/Users/leeyathei/Documents/Project/GameHub/backend-gamehub/src/main/resources/"+ newFileName;
+        try{
+            byte[] bytes = image.getBytes();
+            Files.write(Paths.get(pathName), bytes);
+            //TODO: delete the unused file
+        } catch (IOException e) {
+            throw  new IllegalStateException("the image uploading fail");
+        }
+        gameOnDB.setImage_url(pathName);
+        return gameOnDB;
+
+
+
+    }
+
+    public void deleteGames(long game_id) {
+        Optional<Games> gamesOptional= gamesRepository.findById(game_id);
+        if (!gamesOptional.isPresent()){
+            throw  new IllegalStateException("the games with id "+game_id+" does not exist");
+        }
+        gamesRepository.deleteById(game_id);
+    }
+
+
+}

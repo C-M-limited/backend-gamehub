@@ -1,6 +1,8 @@
 package com.example.gamehubbackend.console_brand;
 
 import com.example.gamehubbackend.console.Console;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,10 +19,12 @@ public class ConsoleBrand {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(length = 50)
+    @Column(length = 50, nullable = false)
     private String name;
 
+
     @OneToMany(mappedBy = "console_brand", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Console> consoles;
 
     public void setConsoles(Set<Console> consoles) {

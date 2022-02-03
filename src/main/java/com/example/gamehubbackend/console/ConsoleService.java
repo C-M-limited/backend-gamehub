@@ -26,11 +26,12 @@ public class ConsoleService {
     }
 
     public Console addConsole(Console console) {
+        String consoleName= console.getName();
         Optional<ConsoleBrand> optionalConsoleBrand = consoleBrandRepository.findById(console.getConsole_brand().getId());
         if (!optionalConsoleBrand.isPresent()) {
             throw new IllegalStateException("Console brand does not exits");
         }
-        Optional<Console> consoleOptional= consoleRepository.findConsoleByName(console.getName());
+        Optional<Console> consoleOptional= consoleRepository.findConsoleByName(consoleName);
         if (consoleOptional.isPresent()){
             throw  new IllegalStateException("the console already exits");
         }

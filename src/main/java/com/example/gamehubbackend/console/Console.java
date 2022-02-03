@@ -1,12 +1,15 @@
 package com.example.gamehubbackend.console;
 
 import com.example.gamehubbackend.console_brand.ConsoleBrand;
+import com.example.gamehubbackend.games.Games;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -18,13 +21,17 @@ public class Console {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(length = 50)
+    @Column(length = 50, nullable = false)
     private String name;
-//(fetch = FetchType.LAZY)
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "console_brand_id",nullable = false)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonBackReference
     private ConsoleBrand console_brand;
+
+    @OneToMany(mappedBy = "console", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonBackReference
+    private Set<Games> games;
 
     public int getConsole_Brand_Id(){
         return console_brand.getId();
