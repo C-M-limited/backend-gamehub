@@ -26,7 +26,6 @@ public class Console {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "console_brand_id",nullable = false)
-    @JsonBackReference
     private ConsoleBrand console_brand;
 
     @OneToMany(mappedBy = "console", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

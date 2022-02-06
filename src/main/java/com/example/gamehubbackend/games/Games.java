@@ -7,16 +7,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.redis.core.RedisHash;
 import org.w3c.dom.Text;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Getter
 @Setter
 @EqualsAndHashCode
 @Entity
 @Table(name="games")
-public class Games {
+public class Games implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

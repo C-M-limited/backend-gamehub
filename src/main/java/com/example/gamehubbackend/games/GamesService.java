@@ -4,8 +4,10 @@ import com.example.gamehubbackend.console.Console;
 import com.example.gamehubbackend.console.ConsoleRepository;
 import com.example.gamehubbackend.console_brand.ConsoleBrand;
 import com.example.gamehubbackend.console_brand.ConsoleBrandRepository;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.cache.annotation.Cacheable;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
@@ -17,6 +19,7 @@ import java.util.Optional;
 import java.util.Random;
 
 @Service
+//@CacheConfig(cacheNames = "gamesService")
 public class GamesService {
     private final GamesRepository gamesRepository;
     private final ConsoleRepository consoleRepository;
@@ -27,7 +30,7 @@ public class GamesService {
         this.consoleRepository = consoleRepository;
         this.consoleBrandRepository = consoleBrandRepository;
     }
-
+    @Cacheable(value = "getAllGames")
     public List<Games> getAllGames() {
         return gamesRepository.findAll();
     }
@@ -39,7 +42,7 @@ public class GamesService {
         }
         return gamesRepository.findAllGamesByBrand(console_brand_id);
     }
-
+    @CacheEvict("games")
     public List<Games> getAllGamesByConsole(int console_id) {
         Optional<Console> optionalConsole=consoleRepository.findConsoleByID(console_id);
         if (!optionalConsole.isPresent()){
