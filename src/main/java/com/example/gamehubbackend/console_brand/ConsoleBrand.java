@@ -2,11 +2,14 @@ package com.example.gamehubbackend.console_brand;
 
 import com.example.gamehubbackend.console.Console;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,7 +17,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "console_brand")
-public class ConsoleBrand {
+public class ConsoleBrand implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -24,7 +27,8 @@ public class ConsoleBrand {
 
 
     @OneToMany(mappedBy = "console_brand", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonBackReference
+//    @JsonIgnoreProperties("console_brand")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set<Console> consoles;
 
     public void setConsoles(Set<Console> consoles) {

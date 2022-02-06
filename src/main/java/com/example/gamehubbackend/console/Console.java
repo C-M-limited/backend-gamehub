@@ -3,12 +3,15 @@ package com.example.gamehubbackend.console;
 import com.example.gamehubbackend.console_brand.ConsoleBrand;
 import com.example.gamehubbackend.games.Games;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Getter
@@ -16,7 +19,7 @@ import java.util.Set;
 @EqualsAndHashCode
 @Entity
 @Table(name="console")
-public class Console {
+public class Console implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -24,12 +27,15 @@ public class Console {
     @Column(length = 50, nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade=CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "console_brand_id",nullable = false)
+//    @JsonIgnoreProperties("console")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private ConsoleBrand console_brand;
 
     @OneToMany(mappedBy = "console", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonBackReference
+//    @JsonIgnoreProperties("console")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set<Games> games;
 
     public int getConsole_Brand_Id(){
