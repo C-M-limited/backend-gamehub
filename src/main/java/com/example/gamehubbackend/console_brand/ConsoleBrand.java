@@ -27,7 +27,6 @@ public class ConsoleBrand implements Serializable {
 
 
     @OneToMany(mappedBy = "console_brand", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-//    @JsonIgnoreProperties("console_brand")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set<Console> consoles;
 
