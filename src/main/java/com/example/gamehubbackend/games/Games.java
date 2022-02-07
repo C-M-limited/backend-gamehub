@@ -29,7 +29,7 @@ public class Games implements Serializable {
     @Column(columnDefinition="TEXT")
     private String image_url;
 
-    @ManyToOne(cascade=CascadeType.ALL,fetch = FetchType.LAZY)
+    @ManyToOne(cascade=CascadeType.PERSIST,fetch = FetchType.LAZY)
     @JoinColumn(name = "console_id",nullable = false)
 //    @JsonIgnoreProperties("games")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

@@ -1,6 +1,5 @@
 package com.example.gamehubbackend.console_brand;
 
-import com.example.gamehubbackend.console.Console;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,12 +32,6 @@ public class ConsoleBrandController {
 
     @DeleteMapping(path="{brand_id}")
     public String deleteBrands(@PathVariable("brand_id") int brand_id){
-        consoleBrandService.deleteBrands(brand_id);
-        return ("Success Delete");
-    }
-    @PostMapping(path="/console")
-    public String addConsole(@RequestBody Console console) {
-        consoleBrandService.addConsole(console);
-        return ("Success");
+        return consoleBrandService.deleteBrands(brand_id);
     }
 }

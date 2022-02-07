@@ -1,6 +1,5 @@
 package com.example.gamehubbackend.console_brand;
 
-import com.example.gamehubbackend.console.Console;
 import com.example.gamehubbackend.console.ConsoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,19 +47,12 @@ public class ConsoleBrandService {
 
     }
 
-    public void deleteBrands(int brand_id) {
+    public String deleteBrands(int brand_id) {
         Optional<ConsoleBrand> brandOptional= consoleBrandRepository.findBrandByID(brand_id);
         if (!brandOptional.isPresent()){
-            throw  new IllegalStateException("brand with id "+ brand_id +"does not exits");
+            throw  new IllegalStateException("brand with id "+ brand_id +" does not exits");
         }
         consoleBrandRepository.deleteById(brand_id);
-    }
-
-
-    public void addConsole(Console console) {
-        Optional<ConsoleBrand> brandOptional= consoleBrandRepository.findBrandByID(1);
-        if (brandOptional.isPresent()){
-
-        }
+        return ("Success deleting the brand with id: "+brand_id);
     }
 }
