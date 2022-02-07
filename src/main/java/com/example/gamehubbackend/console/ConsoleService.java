@@ -43,13 +43,13 @@ public class ConsoleService {
     public Console updateConsole(Console console) {
         int consoleID = console.getId();
         String consoleName = console.getName();
-        //System.out.println(console);
         int consoleBrandId = console.getConsole_brand().getId();
         Console consoleOnDB= consoleRepository.findConsoleByID(consoleID)
-                .orElseThrow(()->new IllegalStateException(("console with id "+ consoleID +"does not exits")));
-        //user going to change to console brand)
+                .orElseThrow(()->new IllegalStateException(("console with id "+ consoleID +" does not exist")));
+        ConsoleBrand consoleBrandOnDB = consoleBrandRepository.findBrandByID(consoleBrandId)
+                .orElseThrow(()->new IllegalStateException(("brand with id "+ consoleBrandId + " does not exist.")));
         if (consoleOnDB.getConsole_Brand_Id()!=consoleBrandId){
-            //TODO:Edit
+            consoleOnDB.setConsole_brand(consoleBrandOnDB);
         }
 
         if (consoleName!= null &&
