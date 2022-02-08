@@ -61,8 +61,6 @@ class ConsoleBrandServiceTest {
         doReturn(Optional.of(consoleBrand)).when(consoleBrandRepository).findBrandByID(0);
         String result = consoleBrandService.deleteBrands(0);
         Assertions.assertEquals("Success deleting the brand with id: 0",result);
-
-
     }
 
 }

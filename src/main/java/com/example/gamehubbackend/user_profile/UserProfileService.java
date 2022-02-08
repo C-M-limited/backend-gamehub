@@ -36,12 +36,12 @@ public class UserProfileService implements UserDetailsService {
     }
 
     // POST
-    public void createUserProfile(UserProfile userProfile) {
+    public UserProfile createUserProfile(UserProfile userProfile) {
         Optional<UserProfile> userProfileOptional = userProfileRepository.findUserProfileByEmail(userProfile.getUsername());
         if (userProfileOptional.isPresent()) {
             throw new IllegalStateException("the user profile already exist");
         }
-        userProfileRepository.save(userProfile);
+        return userProfileRepository.save(userProfile);
     }
 
     // PUT

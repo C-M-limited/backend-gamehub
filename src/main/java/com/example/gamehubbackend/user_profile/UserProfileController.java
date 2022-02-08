@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path="/api/v1/user_profile")
+@RequestMapping("/api/v1/user_profile")
 public class UserProfileController {
     private final UserProfileService userProfileService;
 
@@ -16,18 +16,18 @@ public class UserProfileController {
         this.userProfileService = userProfileService;
     }
 
-    @GetMapping
+    @GetMapping()
     public List<UserProfile> getAllUserProfile() {
         return userProfileService.getAllUserProfiles();
     }
 
-    @GetMapping("{user_id}")
-    @ResponseBody
-    public UserProfile getUserProfile(@RequestParam Long user_id) {
-        return userProfileService.getUserProfiles(user_id);
+    @GetMapping("/{id}")
+    public UserProfile getUserProfile(@PathVariable("id") Long id) {
+        System.out.println(id);
+        return userProfileService.getUserProfiles(id);
     }
 
-    @PostMapping
+    @PostMapping()
     public String createUserProfile(@RequestBody UserProfile userProfile) {
         userProfileService.createUserProfile(userProfile);
         return "user profile created successfully";
