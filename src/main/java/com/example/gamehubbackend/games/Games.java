@@ -47,6 +47,12 @@ public class Games implements Serializable {
         this.console = console;
     }
 
+    public Games(String name, String image_url, Console console) {
+        this.name = name;
+        this.image_url = image_url;
+        this.console = console;
+    }
+
     @Override
     public String toString() {
         return "Games{" +

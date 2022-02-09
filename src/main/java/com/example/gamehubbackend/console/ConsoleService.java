@@ -62,12 +62,13 @@ public class ConsoleService {
 
     }
 
-    public void deleteConsole(int console_id) {
+    public String deleteConsole(int console_id) {
         Optional<Console> consoleOptional= consoleRepository.findConsoleByID(console_id);
         if (!consoleOptional.isPresent()){
             throw  new IllegalStateException("console with id "+ console_id +"does not exits");
         }
         consoleRepository.deleteById(console_id);
+        return ("Success deleting the console with id: "+console_id);
     }
 
 }

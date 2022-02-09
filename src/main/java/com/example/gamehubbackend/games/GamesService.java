@@ -21,7 +21,7 @@ import java.util.Optional;
 import java.util.Random;
 
 @Service
-@CacheConfig(cacheNames = "games")
+//@CacheConfig(cacheNames = "games")
 public class GamesService {
     private final GamesRepository gamesRepository;
     private final ConsoleRepository consoleRepository;
@@ -32,7 +32,7 @@ public class GamesService {
         this.consoleRepository = consoleRepository;
         this.consoleBrandRepository = consoleBrandRepository;
     }
-    @Cacheable
+    //@Cacheable
     public List<Games> getAllGames() {
         return gamesRepository.findAll();
     }
@@ -52,7 +52,8 @@ public class GamesService {
         }
         return gamesRepository.findAllGamesByConsole(console_id);
     }
-    @CacheEvict(  allEntries=true)
+    //@CacheEvict(  allEntries=true)
+//    @CachePut(key="#game.id")
     public Games addGames(String name, MultipartFile image, int console_id) {
         //check console is exist
         Optional<Console> optionalConsole = consoleRepository.findConsoleByID(console_id);
@@ -91,7 +92,7 @@ public class GamesService {
     }
 
     @Transactional
-    @CachePut( key="#games_id")
+    //@CachePut( key="#games_id")
     public Games editGames(long games_id, String name, MultipartFile image, int console_id) {
         Games gameOnDB = gamesRepository.findById(games_id)
                 .orElseThrow(()->new IllegalStateException(("the games with id "+games_id+" does not exist")));
@@ -123,7 +124,7 @@ public class GamesService {
 
 
     }
-    @CacheEvict(key="#game_id")
+    //@CacheEvict(key="#game_id")
     public void deleteGames(long game_id) {
         Optional<Games> gamesOptional= gamesRepository.findById(game_id);
         if (!gamesOptional.isPresent()){

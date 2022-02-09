@@ -35,6 +35,10 @@ public class ConsoleBrand implements Serializable {
         this.name = name;
     }
 
+    public ConsoleBrand(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public void setConsoles(Set<Console> consoles) {
         this.consoles = consoles;

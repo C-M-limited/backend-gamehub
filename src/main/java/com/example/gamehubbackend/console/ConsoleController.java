@@ -32,8 +32,8 @@ public class ConsoleController {
 
     @DeleteMapping(path="{console_id}")
     public String deleteConsole(@PathVariable("console_id") int console_id){
-        consoleService.deleteConsole(console_id);
-        return ("Success Delete");
+        String result = consoleService.deleteConsole(console_id);
+        return result;
     }
 
 }
