@@ -51,8 +51,7 @@ public class GamesController {
     @CacheEvict(key="#game_id")
     @DeleteMapping(path="{game_id}")
     public String deleteGames(@PathVariable ("game_id") long game_id){
-        gamesService.deleteGames(game_id);
-        return ("success");
+        return gamesService.deleteGames(game_id);
     }
 
 

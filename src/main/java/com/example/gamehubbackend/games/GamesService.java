@@ -125,12 +125,13 @@ public class GamesService {
 
     }
     //@CacheEvict(key="#game_id")
-    public void deleteGames(long game_id) {
+    public String deleteGames(long game_id) {
         Optional<Games> gamesOptional= gamesRepository.findById(game_id);
         if (!gamesOptional.isPresent()){
             throw  new IllegalStateException("the games with id "+game_id+" does not exist");
         }
         gamesRepository.deleteById(game_id);
+        return ("Success deleting the game with id: "+game_id);
     }
 
 

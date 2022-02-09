@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
 @SpringBootTest
@@ -77,33 +78,77 @@ class GamesServiceTest {
 
     @Test
     void addGames() {
-//        doReturn(Optional.of(consoleBrand1)).when(consoleBrandRepository).findById(0);
-//        doReturn(Optional.of(console1)).when(consoleRepository).findConsoleByID(0);
-//        Games games1= new Games("GTA 5","image_url",console1);
-//        doReturn(Optional.of(console1)).when(consoleRepository).findConsoleByID(0);
-//        doReturn(games1).when(gamesRepository).save(games1);
-//        //create a image
-//        Path path = Paths.get("/Users/leeyathei/Documents/Project/GameHub/backend-gamehub/src/main/resources/testing.png");
-//        String name = "testing.png";
-//        String originalFileName = "testing.png";
-//        String contentType = "image/png";
-//        byte[] content = null;
-//        try {
-//            content = Files.readAllBytes(path);
-//        } catch (final IOException e) {
-//        }
-//        MultipartFile image = new MockMultipartFile(name,
-//                originalFileName, contentType, content);
-//        Games result = gamesService.addGames("GTA 5",image ,0);
-//        Assertions.assertEquals(games1.getName(),result);
-
+        doReturn(Optional.of(consoleBrand1)).when(consoleBrandRepository).findById(0);
+        doReturn(Optional.of(console1)).when(consoleRepository).findConsoleByID(0);
+        Games games1= new Games("GTA 5","image_url",console1);
+        doReturn(Optional.of(console1)).when(consoleRepository).findConsoleByID(0);
+        doReturn(games1).when(gamesRepository).save(any());
+        //create a image
+        Path path = Paths.get("/Users/leeyathei/Documents/Project/GameHub/backend-gamehub/src/main/resources/testing.png");
+        String name = "testing.png";
+        String originalFileName = "testing.png";
+        String contentType = "image/png";
+        byte[] content = null;
+        try {
+            content = Files.readAllBytes(path);
+        } catch (final IOException e) {
+        }
+        MultipartFile image = new MockMultipartFile(name,
+                originalFileName, contentType, content);
+        Games result = gamesService.addGames("GTA 5",image ,0);
+        Assertions.assertEquals("GTA 5",result.getName());
     }
 
     @Test
     void editGames() {
+        Games games1= new Games("GTA 5","image_url",console1);
+        doReturn(Optional.of(games1)).when(gamesRepository).findById(0L);
+        doReturn(Optional.of(console2)).when(consoleRepository).findConsoleByID(1);
+        //create a image
+        Path path = Paths.get("/Users/leeyathei/Documents/Project/GameHub/backend-gamehub/src/main/resources/testing.png");
+        String name = "testing.png";
+        String originalFileName = "testing.png";
+        String contentType = "image/png";
+        byte[] content = null;
+        try {
+            content = Files.readAllBytes(path);
+        } catch (final IOException e) {
+        }
+        MultipartFile image = new MockMultipartFile(name,
+                originalFileName, contentType, content);
+        Games result = gamesService.editGames(0L,"GTA 6",image ,1);
+        Assertions.assertEquals("GTA 6",result.getName());
+//        //edit game name
+//        if (!(name != null && name.length()>0 && !Objects.equals(gameOnDB.getName(),name))){
+//            throw new IllegalStateException("Not valid name");
+//        }
+//        gameOnDB.setName(name);
+//        //edit console id
+//        Optional<Console> consoleOptional= consoleRepository.findConsoleByID(console_id);
+//        if (!consoleOptional.isPresent()){
+//            throw new IllegalStateException("the console with id"+ console_id+"does not exits");
+//        }
+//        gameOnDB.setConsole(consoleOptional.get());
+//        //MultipartFile
+//        Random random = new Random();
+//        String newFileName = String.format("%s%s",System.currentTimeMillis(),random.nextInt(100000)+".png");
+//        String pathName = "/Users/leeyathei/Documents/Project/GameHub/backend-gamehub/src/main/resources/"+ newFileName;
+//        try{
+//            byte[] bytes = image.getBytes();
+//            Files.write(Paths.get(pathName), bytes);
+//            //TODO: delete the unused file
+//        } catch (IOException e) {
+//            throw  new IllegalStateException("the image uploading fail");
+//        }
+//        gameOnDB.setImage_url(pathName);
+//        return gameOnDB;
     }
 
     @Test
     void deleteGames() {
+        Games games1= new Games("GTA 5","image_url",console1);
+        doReturn(Optional.of(games1)).when(gamesRepository).findById(0L);
+        String result = gamesService.deleteGames(0L);
+        Assertions.assertEquals("Success deleting the game with id: 0",result);
     }
 }
