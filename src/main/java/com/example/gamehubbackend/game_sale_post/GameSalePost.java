@@ -1,6 +1,7 @@
 package com.example.gamehubbackend.game_sale_post;
 
 import com.example.gamehubbackend.games.Games;
+import com.example.gamehubbackend.subscribed_post.SubscribedPost;
 import com.example.gamehubbackend.user_profile.UserProfile;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -42,6 +44,10 @@ public class GameSalePost implements Serializable {
     @Column(columnDefinition="TEXT")
     private String description;
     private String contact_method;
+
+    @OneToMany(mappedBy = "gameSalePost", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Set<SubscribedPost> subscribedPosts;
 
     public GameSalePost(UserProfile userProfile, Games games, int price, String place_for_transaction, String description, String contact_method) {
         this.userProfile = userProfile;

@@ -1,6 +1,7 @@
 package com.example.gamehubbackend.user_profile;
 
 import com.example.gamehubbackend.game_sale_post.GameSalePost;
+import com.example.gamehubbackend.subscribed_post.SubscribedPost;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -45,6 +46,9 @@ public class UserProfile implements UserDetails {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set<GameSalePost> gameSalePosts;
 
+    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Set<SubscribedPost> subscribedPosts;
     // For testing use
     public UserProfile(Long id, String firstName, String lastName, String email, String password, UserRole role) {
         this.id = id;
