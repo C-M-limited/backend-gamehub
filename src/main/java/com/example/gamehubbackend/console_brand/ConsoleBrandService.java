@@ -26,7 +26,7 @@ public class ConsoleBrandService {
     public ConsoleBrand addBrands(ConsoleBrand brand) {
         Optional<ConsoleBrand> brandOptional= consoleBrandRepository.findBrandByName(brand.getName());
         if (brandOptional.isPresent()){
-            throw  new IllegalStateException("the brand already exits");
+            throw  new IllegalStateException("the brand already exist");
         }
         return consoleBrandRepository.save(brand);
     }
@@ -36,7 +36,7 @@ public class ConsoleBrandService {
         int brandID = brand.getId();
         String brandName = brand.getName();
         ConsoleBrand brandOnDB = consoleBrandRepository.findBrandByID(brandID)
-                .orElseThrow(()->new IllegalStateException(("console with id "+ brandID +" does not exits")));
+                .orElseThrow(()->new IllegalStateException(("console with id "+ brandID +" does not exist")));
         if (brandName!= null &&
                 brandName.length()>0 &&
                 !Objects.equals(brandOnDB.getName(),brandName)){
@@ -50,7 +50,7 @@ public class ConsoleBrandService {
     public String deleteBrands(int brand_id) {
         Optional<ConsoleBrand> brandOptional= consoleBrandRepository.findBrandByID(brand_id);
         if (!brandOptional.isPresent()){
-            throw  new IllegalStateException("brand with id "+ brand_id +" does not exits");
+            throw  new IllegalStateException("brand with id "+ brand_id +" does not exist");
         }
         consoleBrandRepository.deleteById(brand_id);
         return ("Success deleting the brand with id: "+brand_id);

@@ -29,11 +29,11 @@ public class ConsoleService {
         String consoleName= console.getName();
         Optional<ConsoleBrand> optionalConsoleBrand = consoleBrandRepository.findById(console.getConsole_brand().getId());
         if (!optionalConsoleBrand.isPresent()) {
-            throw new IllegalStateException("Console brand does not exits");
+            throw new IllegalStateException("Console brand does not exist");
         }
         Optional<Console> consoleOptional= consoleRepository.findConsoleByName(consoleName);
         if (consoleOptional.isPresent()){
-            throw  new IllegalStateException("the console already exits");
+            throw  new IllegalStateException("the console already exist");
         }
         console.setConsole_brand(optionalConsoleBrand.get());
         return consoleRepository.save(console);
@@ -65,7 +65,7 @@ public class ConsoleService {
     public String deleteConsole(int console_id) {
         Optional<Console> consoleOptional= consoleRepository.findConsoleByID(console_id);
         if (!consoleOptional.isPresent()){
-            throw  new IllegalStateException("console with id "+ console_id +"does not exits");
+            throw  new IllegalStateException("console with id "+ console_id +"does not exist");
         }
         consoleRepository.deleteById(console_id);
         return ("Success deleting the console with id: "+console_id);

@@ -2,9 +2,6 @@ package com.example.gamehubbackend.console;
 
 import com.example.gamehubbackend.console_brand.ConsoleBrand;
 import com.example.gamehubbackend.games.Games;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 

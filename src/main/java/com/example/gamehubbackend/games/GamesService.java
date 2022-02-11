@@ -4,6 +4,7 @@ import com.example.gamehubbackend.console.Console;
 import com.example.gamehubbackend.console.ConsoleRepository;
 import com.example.gamehubbackend.console_brand.ConsoleBrand;
 import com.example.gamehubbackend.console_brand.ConsoleBrandRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -27,6 +28,7 @@ public class GamesService {
     private final ConsoleRepository consoleRepository;
     private final ConsoleBrandRepository consoleBrandRepository;
 
+    @Autowired
     public GamesService(GamesRepository gamesRepository, ConsoleRepository consoleRepository, ConsoleBrandRepository consoleBrandRepository) {
         this.gamesRepository = gamesRepository;
         this.consoleRepository = consoleRepository;
@@ -40,7 +42,7 @@ public class GamesService {
     public List<Object[]> getAllGamesByBrand(int console_brand_id) {
         Optional<ConsoleBrand> optionalConsoleBrand=consoleBrandRepository.findBrandByID(console_brand_id);
         if (!optionalConsoleBrand.isPresent()){
-            throw new IllegalStateException("Console Brand does not exits");
+            throw new IllegalStateException("Console Brand does not exist");
         }
         return gamesRepository.findAllGamesByBrand(console_brand_id);
     }
@@ -48,7 +50,7 @@ public class GamesService {
     public List<Games> getAllGamesByConsole(int console_id) {
         Optional<Console> optionalConsole=consoleRepository.findConsoleByID(console_id);
         if (!optionalConsole.isPresent()){
-            throw new IllegalStateException("Console does not exits");
+            throw new IllegalStateException("Console does not exist");
         }
         return gamesRepository.findAllGamesByConsole(console_id);
     }
@@ -58,12 +60,12 @@ public class GamesService {
         //check console is exist
         Optional<Console> optionalConsole = consoleRepository.findConsoleByID(console_id);
         if (!optionalConsole.isPresent()) {
-            throw new IllegalStateException("Console does not exits");
+            throw new IllegalStateException("Console does not exist");
         }
         //check name is not exist
         Optional<Games> gamesOptional= gamesRepository.findGamesByName(name);
         if (gamesOptional.isPresent()){
-            throw  new IllegalStateException("the games already exits");
+            throw  new IllegalStateException("the games already exist");
         }
         //check the file type
         String filename = image.getOriginalFilename();
@@ -104,7 +106,7 @@ public class GamesService {
         //edit console id
         Optional<Console> consoleOptional= consoleRepository.findConsoleByID(console_id);
         if (!consoleOptional.isPresent()){
-            throw new IllegalStateException("the console with id"+ console_id+"does not exits");
+            throw new IllegalStateException("the console with id"+ console_id+"does not exist");
         }
         gameOnDB.setConsole(consoleOptional.get());
         //MultipartFile

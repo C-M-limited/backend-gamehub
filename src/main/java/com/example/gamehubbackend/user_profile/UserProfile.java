@@ -1,5 +1,7 @@
 package com.example.gamehubbackend.user_profile;
 
+import com.example.gamehubbackend.game_sale_post.GameSalePost;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -11,9 +13,10 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 
 @Entity
-@Table
+@Table(name="user_profile")
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -37,6 +40,10 @@ public class UserProfile implements UserDetails {
     private Timestamp created_at;
     @LastModifiedDate
     private Timestamp updated_at;
+
+    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Set<GameSalePost> gameSalePosts;
 
     // For testing use
     public UserProfile(Long id, String firstName, String lastName, String email, String password, UserRole role) {

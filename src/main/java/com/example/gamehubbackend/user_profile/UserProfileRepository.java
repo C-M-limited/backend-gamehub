@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 @Transactional(readOnly = true)
-public interface UserProfileRepository extends JpaRepository<UserProfile, Integer> {
+public interface UserProfileRepository extends JpaRepository<UserProfile, Long> {
     Optional<UserProfile> findUserProfileByEmail(String email);
 
     @Query("SELECT u FROM UserProfile u WHERE u.id = ?1")

@@ -1,17 +1,15 @@
 package com.example.gamehubbackend.games;
 
 import com.example.gamehubbackend.console.Console;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.example.gamehubbackend.game_sale_post.GameSalePost;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.redis.core.RedisHash;
-import org.w3c.dom.Text;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -31,9 +29,12 @@ public class Games implements Serializable {
 
     @ManyToOne(cascade=CascadeType.PERSIST,fetch = FetchType.LAZY)
     @JoinColumn(name = "console_id",nullable = false)
-//    @JsonIgnoreProperties("games")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Console console;
+
+    @OneToMany(mappedBy = "games", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Set<GameSalePost> gameSalePosts;
 
     public int getConsole_Id(){
         return console.getId();
