@@ -16,6 +16,8 @@
 	<properties>
 		<java.version>17</java.version>
 		<springfox.version>3.0.0-SNAPSHOT</springfox.version>
+		<!--When deploy makes this to true		-->
+		<skipTests>true</skipTests>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -108,7 +110,31 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<!--	maven -docker		-->
+<!--			<plugin>-->
+<!--				<groupId>com.spotify</groupId>-->
+<!--				<artifactId>dockerfile-maven-plugin</artifactId>-->
+<!--				<version>1.4.13</version>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<id>default</id>-->
+<!--						<goals>-->
+<!--							<goal>build</goal>-->
+<!--							<goal>push</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--				<configuration>-->
+<!--					<repository>javastack/${project.name}</repository>-->
+<!--					<tag>${project.version}</tag>-->
+<!--					<buildArgs>-->
+<!--						<JAR_FILE>${project.build.finalName}.jar</JAR_FILE>-->
+<!--					</buildArgs>-->
+<!--					<dockerfile>src/main/docker/Dockerfile</dockerfile>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
 		</plugins>
+		<finalName>gameHubBackend</finalName>
 	</build>
 
 </project>
