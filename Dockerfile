@@ -2,7 +2,7 @@
 # docker run --name pgadmin -e PGADMIN_DEFAULT_EMAIL=chrisleebed@gamil.com -e PGADMIN_DEFAULT_PASSWORD=ubuntu -p 5555:80 -d dpage/pgadmin4
 # docker run --name redis -p 6379:6379 -d redis
 # docker run -di --name gamehub_backend -p 8080:8080 game-hub-backend.jar
-
+# docker run -p 9191:8080 -p 50000:50000 -d -v jenkins_home:/var/jenkins_home jenkins/jenkins
 
 #build image
 # docker build -t game-hub-backend.jar .
