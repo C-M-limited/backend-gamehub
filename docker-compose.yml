@@ -1,4 +1,4 @@
-version: '2'
+version: '2.5'
 
 services:
   app:
@@ -20,6 +20,8 @@ services:
     environment:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=ubuntu
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
   redis:
     image: 'redis:latest'
     container_name: redis_container
@@ -35,6 +37,10 @@ services:
       - "5555:80"
     depends_on:
       - db
+volumes:
+  pgdata:
+
+
 #get postgres port:
 #docker ps
 #docker inspect {postgres_container_id} | grep IPAddress

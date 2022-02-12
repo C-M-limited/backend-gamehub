@@ -5,12 +5,9 @@ import com.example.gamehubbackend.console.ConsoleRepository;
 import com.example.gamehubbackend.console_brand.ConsoleBrand;
 import com.example.gamehubbackend.console_brand.ConsoleBrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.cache.annotation.Cacheable;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
@@ -27,6 +24,9 @@ public class GamesService {
     private final GamesRepository gamesRepository;
     private final ConsoleRepository consoleRepository;
     private final ConsoleBrandRepository consoleBrandRepository;
+
+    @Autowired
+    private Environment env;
 
     @Autowired
     public GamesService(GamesRepository gamesRepository, ConsoleRepository consoleRepository, ConsoleBrandRepository consoleBrandRepository) {
@@ -76,7 +76,7 @@ public class GamesService {
         //generate unique file name
         Random random = new Random();
         String newFileName = String.format("%s%s",System.currentTimeMillis(),random.nextInt(100000)+".png");
-        String pathName = "/Users/leeyathei/Documents/Project/GameHub/backend-gamehub/src/main/resources/"+ newFileName;
+        String pathName = env.getProperty("imageLocation")+ newFileName;
         //save the image
         try{
             byte[] bytes = image.getBytes();
@@ -112,7 +112,7 @@ public class GamesService {
         //MultipartFile
         Random random = new Random();
         String newFileName = String.format("%s%s",System.currentTimeMillis(),random.nextInt(100000)+".png");
-        String pathName = "/Users/leeyathei/Documents/Project/GameHub/backend-gamehub/src/main/resources/"+ newFileName;
+        String pathName = env.getProperty("imageLocation")+ newFileName;
         try{
             byte[] bytes = image.getBytes();
             Files.write(Paths.get(pathName), bytes);

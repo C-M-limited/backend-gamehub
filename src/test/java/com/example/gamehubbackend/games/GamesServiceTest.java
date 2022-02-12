@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +29,8 @@ import static org.mockito.Mockito.doReturn;
 
 @SpringBootTest
 class GamesServiceTest {
+    @Autowired
+    private Environment env;
     @Autowired
     private ConsoleService consoleService;
     @Autowired
@@ -84,7 +87,7 @@ class GamesServiceTest {
         doReturn(Optional.of(console1)).when(consoleRepository).findConsoleByID(0);
         doReturn(games1).when(gamesRepository).save(any());
         //create a image
-        Path path = Paths.get("/Users/leeyathei/Documents/Project/GameHub/backend-gamehub/src/main/resources/testing.png");
+        Path path = Paths.get(env.getProperty("imageLocation")+"testing.png");
         String name = "testing.png";
         String originalFileName = "testing.png";
         String contentType = "image/png";
@@ -105,7 +108,7 @@ class GamesServiceTest {
         doReturn(Optional.of(games1)).when(gamesRepository).findById(0L);
         doReturn(Optional.of(console2)).when(consoleRepository).findConsoleByID(1);
         //create a image
-        Path path = Paths.get("/Users/leeyathei/Documents/Project/GameHub/backend-gamehub/src/main/resources/testing.png");
+        Path path = Paths.get(env.getProperty("imageLocation")+"testing.png");
         String name = "testing.png";
         String originalFileName = "testing.png";
         String contentType = "image/png";
