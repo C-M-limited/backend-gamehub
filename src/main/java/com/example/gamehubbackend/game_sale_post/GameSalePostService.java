@@ -75,7 +75,6 @@ public class GameSalePostService {
         JwtUtil jwtToken = new JwtUtil();
         JSONObject jwtBody = jwtToken.decodeToken(jwt);
         Long userId = Long.valueOf((int) jwtBody.get("id"));
-        System.out.println(userId);
         Optional<Games> optionalGames = gamesRepository.findById(gameSalePost.getGames_ID());
         if (!optionalGames.isPresent()) {
             throw new IllegalStateException("Games does not exist");

@@ -5,6 +5,8 @@ import com.example.gamehubbackend.user_profile.UserProfile;
 import io.jsonwebtoken.*;
 import org.apache.commons.codec.binary.Base64;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import javax.security.auth.message.AuthException;
@@ -17,8 +19,10 @@ import java.util.Map;
 
 @Component
 public class JwtUtil implements Serializable {
-
+    //15 mins expire
     private static final long EXPIRATION_TIME = 15 * 60 * 1000;
+    //6 months expire
+    private static final long EXPIRATION_TIME_REFRESH_TOKEN =  24* 60 * 60 * 1000;
     /**
      * JWT SECRET KEY
      */
@@ -35,6 +39,15 @@ public class JwtUtil implements Serializable {
         return Jwts.builder()
                 .setClaims( claims )
                 .setExpiration( new Date( Instant.now().toEpochMilli() + EXPIRATION_TIME  ) )
+                .signWith( SignatureAlgorithm.HS512, SECRET )
+                .compact();
+    }
+    public String generateRefreshToken(UserProfile user) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put( "email", user.getEmail() );
+        return Jwts.builder()
+                .setClaims( claims )
+                .setExpiration( new Date( Instant.now().toEpochMilli() + EXPIRATION_TIME_REFRESH_TOKEN  ) )
                 .signWith( SignatureAlgorithm.HS512, SECRET )
                 .compact();
     }
@@ -66,8 +79,9 @@ public class JwtUtil implements Serializable {
     //Decode Token
     public JSONObject decodeToken(String token) throws UnsupportedEncodingException {
         String[] pieces = token.split("\\.");
+//        String base64EncodedHeader = split_string[0];
         String base64EncodedBody = pieces[1];
-
+//        String base64EncodedSignature = split_string[2];
         Base64 base64Url = new Base64(true);
         String body = new String(base64Url.decode(base64EncodedBody));
         JSONObject jsonObject = new JSONObject(body);
