@@ -111,15 +111,15 @@ class GameSalePostServiceTest {
         Assertions.assertEquals(2,result.size(),"findAllPostsByUser should return 2 posts");
     }
 
-    @Test
-    void addPosts() {
-        doReturn(Optional.of(games1)).when(gamesRepository).findById(null);
-        doReturn(Optional.of(userProfile1)).when(userProfileRepository).findById(null);
-        GameSalePost post1= new GameSalePost(userProfile1,games1,500,"Yau Tong Station","Trade at 7:OO","12345678");
-        doReturn(post1).when(gameSalePostRepository).save(post1);
-        GameSalePost result = gameSalePostService.addPosts(post1);
-        Assertions.assertEquals(500,result.getPrice(),"Should save a post with price 500");
-    }
+//    @Test
+//    void addPosts() {
+//        doReturn(Optional.of(games1)).when(gamesRepository).findById(null);
+//        doReturn(Optional.of(userProfile1)).when(userProfileRepository).findById(null);
+//        GameSalePost post1= new GameSalePost(userProfile1,games1,500,"Yau Tong Station","Trade at 7:OO","12345678");
+//        doReturn(post1).when(gameSalePostRepository).save(post1);
+//        GameSalePost result = gameSalePostService.addPosts(post1);
+//        Assertions.assertEquals(500,result.getPrice(),"Should save a post with price 500");
+//    }
 
     @Test
     void editPosts() {

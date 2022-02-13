@@ -17,7 +17,9 @@ import java.util.Collections;
 import java.util.Set;
 
 @Entity
-@Table(name="user_profile")
+@Table(name="user_profile",
+        uniqueConstraints = {@UniqueConstraint(columnNames = "email")
+})
 @Getter
 @Setter
 @EqualsAndHashCode

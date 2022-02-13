@@ -6,11 +6,16 @@ import com.example.gamehubbackend.console_brand.ConsoleBrand;
 import com.example.gamehubbackend.console_brand.ConsoleBrandRepository;
 import com.example.gamehubbackend.games.Games;
 import com.example.gamehubbackend.games.GamesRepository;
+import com.example.gamehubbackend.jwt.JwtUtil;
 import com.example.gamehubbackend.user_profile.UserProfile;
 import com.example.gamehubbackend.user_profile.UserProfileRepository;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,18 +71,22 @@ public class GameSalePostService {
         return gameSalePostRepository.findAllPostsByUser(user_id);
     }
 
-    public GameSalePost addPosts(GameSalePost gameSalePost) {
+    public ResponseEntity addPosts(String jwt, GameSalePost gameSalePost) throws UnsupportedEncodingException {
+        JwtUtil jwtToken = new JwtUtil();
+        JSONObject jwtBody = jwtToken.decodeToken(jwt);
+        Long userId = Long.valueOf((int) jwtBody.get("id"));
+        System.out.println(userId);
         Optional<Games> optionalGames = gamesRepository.findById(gameSalePost.getGames_ID());
         if (!optionalGames.isPresent()) {
             throw new IllegalStateException("Games does not exist");
         }
-        Optional<UserProfile> userProfileOptional = userProfileRepository.findById(gameSalePost.getUser_Id());
+        Optional<UserProfile> userProfileOptional = userProfileRepository.findById(userId);
         if (!userProfileOptional.isPresent()){
             throw  new IllegalStateException("User does not exist");
         }
         gameSalePost.setGames(optionalGames.get());
         gameSalePost.setUserProfile(userProfileOptional.get());
-        return gameSalePostRepository.save(gameSalePost);
+        return ResponseEntity.status(HttpStatus.OK).body(gameSalePostRepository.save(gameSalePost));
     }
 
     public GameSalePost editPosts(GameSalePost gameSalePost) {

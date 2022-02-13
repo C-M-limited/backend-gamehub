@@ -1,10 +1,15 @@
 package com.example.gamehubbackend.game_sale_post;
 
+import com.example.gamehubbackend.jwt.JwtUtil;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.security.auth.message.AuthException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @RestController
@@ -41,8 +46,15 @@ public class GameSalePostController {
     }
     @PostMapping(path = "")
     @CacheEvict(  allEntries=true)
-    public GameSalePost addPosts(@RequestBody GameSalePost gameSalePost){
-        return gameSalePostService.addPosts(gameSalePost);
+    public ResponseEntity addPosts(@RequestHeader("Authorization") String jwt, @RequestBody GameSalePost gameSalePost) throws UnsupportedEncodingException {
+        JwtUtil jwtToken = new JwtUtil();
+        try {
+            jwtToken.validateToken(jwt);
+        } catch (AuthException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }
+
+        return gameSalePostService.addPosts(jwt,gameSalePost);
     }
     //    TODO: Cache
 //    @CachePut(key ="#g" )
