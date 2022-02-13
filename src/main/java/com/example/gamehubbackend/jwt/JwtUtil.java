@@ -30,8 +30,8 @@ public class JwtUtil implements Serializable {
     public String generateToken(UserProfile user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put( "id", user.getId());
-        claims.put( "password", user.getRole() );
-        claims.put( "userName", user.getEmail() );
+        claims.put( "role", user.getRole() );
+        claims.put( "email", user.getEmail() );
         return Jwts.builder()
                 .setClaims( claims )
                 .setExpiration( new Date( Instant.now().toEpochMilli() + EXPIRATION_TIME  ) )
