@@ -47,7 +47,7 @@ public class JwtUtil implements Serializable {
         claims.put( "email", user.getEmail() );
         return Jwts.builder()
                 .setClaims( claims )
-                .setExpiration( new Date( Instant.now().toEpochMilli() + EXPIRATION_TIME_REFRESH_TOKEN  ) )
+                //.setExpiration( new Date( Instant.now().toEpochMilli() + EXPIRATION_TIME_REFRESH_TOKEN  ) )
                 .signWith( SignatureAlgorithm.HS512, SECRET )
                 .compact();
     }

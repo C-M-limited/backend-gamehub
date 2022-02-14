@@ -1,7 +1,6 @@
 package com.example.gamehubbackend.LogIn;
 
 import com.example.gamehubbackend.jwt.JwtUtil;
-import com.example.gamehubbackend.jwt.refreshToken.RefreshTokenRepository;
 import com.example.gamehubbackend.jwt.refreshToken.RefreshTokenService;
 import com.example.gamehubbackend.user_profile.UserProfile;
 import com.example.gamehubbackend.user_profile.UserProfileRepository;
@@ -38,16 +37,22 @@ public class LogInService {
         //  Check valid email
         Optional<UserProfile> userProfileOptional= userProfileRepository.findUserProfileByEmail(email);
         if(!userProfileOptional.isPresent()){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong Email or Password2");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong Email or Password");
         }
         UserProfile userOnDB = userProfileOptional.get();
         // Check valid password
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         encoder.matches(password, userOnDB.getPassword());
         if (!encoder.matches(password, userOnDB.getPassword())){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong Email or Password2");
-//            throw new IllegalStateException("Wrong Email or Password2");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong Email or Password");
         }
+        // Check the user have token already or not (other user use the same account log in at the other device)
+        Boolean notUnique = refreshTokenService.checkUserHaveToken(userOnDB.getId());
+        //if yes delete the existing token
+        if (notUnique){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This account is already LogIn");
+        }
+        //send the token to user
         JwtUtil jwtUtil = new JwtUtil();
         String token = jwtUtil.generateToken(userOnDB); // 取得token
         String refreshToken = jwtUtil.generateRefreshToken(userOnDB);
@@ -55,7 +60,7 @@ public class LogInService {
         responseHeaders.set("refreshToken", refreshToken);
         responseHeaders.set(HttpHeaders.AUTHORIZATION,token);
         //save the token
-        refreshTokenService.addToken(refreshToken);
+        refreshTokenService.addToken(refreshToken,userOnDB.getId());
         return ResponseEntity.ok()
                 .headers(responseHeaders)
                 .body("Hello "+userOnDB.getFirstName());
@@ -67,19 +72,21 @@ public class LogInService {
                 .body("Success");
     }
 
-    public ResponseEntity refresh(String rawJwt) throws UnsupportedEncodingException {
+    public ResponseEntity refresh(String rawJwt) throws UnsupportedEncodingException, AuthException {
 //        String authorizationHeader = request.getHeader("Authorization");
+
+        //check the token is exist
         if (rawJwt!= null && rawJwt.startsWith("Bearer")) {
             String refreshToken = rawJwt.substring("Bearer ".length());
             JwtUtil jwtUtil = new JwtUtil();
             try {
+                //check the token is a token (created by us)
                 jwtUtil.validateToken(refreshToken);
             } catch (AuthException e) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
             }
-            //if user logout, this test won't pass
-            Boolean isValid = refreshTokenService.checkTokenExist(refreshToken);
-            System.out.println(isValid);
+            //if user logout , this test won't pass
+            Boolean isValid = refreshTokenService.checkTokenIsExist(refreshToken);
             if(!isValid){
                 throw new IllegalStateException("Not a Valid Token");
             }
@@ -89,6 +96,11 @@ public class LogInService {
             Optional<UserProfile> userProfileOptional = userProfileRepository.findUserProfileByEmail(user_email);
             if (!userProfileOptional.isPresent()) {
                 throw new IllegalStateException("Not a Valid Token");
+            }
+            //check the token does not expiry and extend it if it is valid
+            Boolean isExpiry = refreshTokenService.checkTokenIsNotExpiryAndExtend(refreshToken);
+            if(isExpiry){
+                throw new AuthException("Expired JWT token");
             }
             //return a new token to user
             String accessToken = jwtUtil.generateToken(userProfileOptional.get());

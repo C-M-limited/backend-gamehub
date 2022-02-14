@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.security.auth.message.AuthException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
@@ -26,7 +27,7 @@ public class LogInController {
     @PostMapping("/logOut")
     public ResponseEntity logOut(@RequestHeader("refreshToken") String refreshToken) {return logInService.logOut(refreshToken);}
     @PostMapping ("/token/refresh")
-    public ResponseEntity refreshToken(@RequestHeader("refreshToken") String refreshToken) throws UnsupportedEncodingException {
+    public ResponseEntity refreshToken(@RequestHeader("refreshToken") String refreshToken) throws UnsupportedEncodingException, AuthException {
         return logInService.refresh(refreshToken);
     }
 }
