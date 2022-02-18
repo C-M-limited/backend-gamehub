@@ -49,9 +49,9 @@ public class LogInService {
         // Check the user have token already or not (other user use the same account log in at the other device)
         Boolean notUnique = refreshTokenService.checkUserHaveToken(userOnDB.getId());
         //if yes delete the existing token
-        if (notUnique){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This account is already LogIn");
-        }
+//        if (notUnique){
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This account is already LogIn");
+//        }
         //send the token to user
         JwtUtil jwtUtil = new JwtUtil();
         String token = jwtUtil.generateToken(userOnDB); // 取得token
