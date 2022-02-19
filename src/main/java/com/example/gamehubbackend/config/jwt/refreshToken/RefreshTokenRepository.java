@@ -9,9 +9,14 @@ import java.util.Optional;
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken,Long> {
     @Query("SELECT t FROM RefreshToken t WHERE t.refreshToken=?1")
     Optional<RefreshToken> findByToken(String token);
+
+    @Query("SELECT t FROM RefreshToken t WHERE t.user_id=?1")
+    Optional<RefreshToken> findByUserId(Long id);
+//    Delete
     @Modifying
     @Query("DELETE FROM RefreshToken t WHERE t.refreshToken=?1")
     void deleteByToken(String token);
-    @Query("SELECT t FROM RefreshToken t WHERE t.user_id=?1")
-    Optional<RefreshToken> findByUserId(Long id);
+    @Modifying
+    @Query("DELETE FROM RefreshToken t WHERE t.user_id = ?1")
+    void deleteByUserId(Long id);
 }
