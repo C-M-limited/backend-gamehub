@@ -1,4 +1,4 @@
-package com.example.gamehubbackend.jwt;
+package com.example.gamehubbackend.config.jwt;
 
 import antlr.BaseAST;
 import com.example.gamehubbackend.user_profile.UserProfile;

@@ -1,4 +1,4 @@
-package com.example.gamehubbackend.security;
+package com.example.gamehubbackend.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

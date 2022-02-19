@@ -1,6 +1,6 @@
 package com.example.gamehubbackend.game_sale_post;
 
-import com.example.gamehubbackend.jwt.JwtUtil;
+import com.example.gamehubbackend.config.jwt.JwtUtil;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;

@@ -1,7 +1,7 @@
 package com.example.gamehubbackend.LogIn;
 
-import com.example.gamehubbackend.jwt.JwtUtil;
-import com.example.gamehubbackend.jwt.refreshToken.RefreshTokenService;
+import com.example.gamehubbackend.config.jwt.JwtUtil;
+import com.example.gamehubbackend.config.jwt.refreshToken.RefreshTokenService;
 import com.example.gamehubbackend.user_profile.UserProfile;
 import com.example.gamehubbackend.user_profile.UserProfileRepository;
 import org.json.JSONObject;

@@ -1,4 +1,4 @@
-package com.example.gamehubbackend.jwt.refreshToken;
+package com.example.gamehubbackend.config.jwt.refreshToken;
 
 import java.sql.Timestamp;
 import lombok.AllArgsConstructor;

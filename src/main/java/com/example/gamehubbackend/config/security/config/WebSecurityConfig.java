@@ -1,4 +1,4 @@
-package com.example.gamehubbackend.security.config;
+package com.example.gamehubbackend.config.security.config;
 
 import com.example.gamehubbackend.user_profile.UserProfileService;
 import lombok.AllArgsConstructor;

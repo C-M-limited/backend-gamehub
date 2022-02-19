@@ -1,4 +1,4 @@
-package com.example.gamehubbackend.redis;
+package com.example.gamehubbackend.config.redis;
 
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;

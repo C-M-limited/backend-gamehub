@@ -6,7 +6,7 @@ import com.example.gamehubbackend.console_brand.ConsoleBrand;
 import com.example.gamehubbackend.console_brand.ConsoleBrandRepository;
 import com.example.gamehubbackend.games.Games;
 import com.example.gamehubbackend.games.GamesRepository;
-import com.example.gamehubbackend.jwt.JwtUtil;
+import com.example.gamehubbackend.config.jwt.JwtUtil;
 import com.example.gamehubbackend.user_profile.UserProfile;
 import com.example.gamehubbackend.user_profile.UserProfileRepository;
 import org.json.JSONObject;

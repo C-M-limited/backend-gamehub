@@ -1,7 +1,6 @@
-package com.example.gamehubbackend.jwt.refreshToken;
+package com.example.gamehubbackend.config.jwt.refreshToken;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

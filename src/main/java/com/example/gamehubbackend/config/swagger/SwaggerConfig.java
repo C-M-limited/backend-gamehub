@@ -1,4 +1,4 @@
-package com.example.gamehubbackend.swagger;
+package com.example.gamehubbackend.config.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
