@@ -57,9 +57,9 @@ public class LogInService {
         JwtUtil jwtUtil = new JwtUtil();
         String token = jwtUtil.generateToken(userOnDB); // 取得token
         String refreshToken = jwtUtil.generateRefreshToken(userOnDB);
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("refreshToken", refreshToken);
-        responseHeaders.set(HttpHeaders.AUTHORIZATION,token);
+//        HttpHeaders responseHeaders = new HttpHeaders();
+//        responseHeaders.set("refreshToken", refreshToken);
+//        responseHeaders.set(HttpHeaders.AUTHORIZATION,token);
         //save the token
         refreshTokenService.addToken(refreshToken,userOnDB.getId());
         Map<String, Object> map = new HashMap<String, Object>();
@@ -110,11 +110,16 @@ public class LogInService {
             }
             //return a new token to user
             String accessToken = jwtUtil.generateToken(userProfileOptional.get());
-            HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.set(HttpHeaders.AUTHORIZATION, accessToken);
-            responseHeaders.set("refreshToken", refreshToken);
-            return ResponseEntity.ok()
-                    .headers(responseHeaders).body("This is your new token set");
+//            HttpHeaders responseHeaders = new HttpHeaders();
+//            responseHeaders.set(HttpHeaders.AUTHORIZATION, accessToken);
+//            responseHeaders.set("refreshToken", refreshToken);
+//            return ResponseEntity.ok()
+//                    .headers(responseHeaders).body("This is your new token set");
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("message", "This is your new token set");
+            map.put("refreshToken", refreshToken);
+            map.put("AUTHORIZATION", accessToken);
+            return new ResponseEntity<Object>(map, HttpStatus.valueOf(200));
         }
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Token is Missing");
     }
