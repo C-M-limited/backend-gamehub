@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.security.auth.message.AuthException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -61,9 +62,14 @@ public class LogInService {
         responseHeaders.set(HttpHeaders.AUTHORIZATION,token);
         //save the token
         refreshTokenService.addToken(refreshToken,userOnDB.getId());
-        return ResponseEntity.ok()
-                .headers(responseHeaders)
-                .body("Hello "+userOnDB.getFirstName());
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("message", "Hello "+userOnDB.getFirstName());
+        map.put("refreshToken", refreshToken);
+        map.put("AUTHORIZATION", token);
+        return new ResponseEntity<Object>(map, HttpStatus.valueOf(200));
+//        return ResponseEntity.ok()
+//                .headers(responseHeaders)
+//                .body("Hello "+userOnDB.getFirstName());
     }
 
     public ResponseEntity logOut(String refreshToken) {
