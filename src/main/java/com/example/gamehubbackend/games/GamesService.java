@@ -1,5 +1,6 @@
 package com.example.gamehubbackend.games;
 
+import com.example.gamehubbackend.config.awsS3.StorageService;
 import com.example.gamehubbackend.console.Console;
 import com.example.gamehubbackend.console.ConsoleRepository;
 import com.example.gamehubbackend.console_brand.ConsoleBrand;
@@ -27,15 +28,17 @@ public class GamesService {
     private final GamesRepository gamesRepository;
     private final ConsoleRepository consoleRepository;
     private final ConsoleBrandRepository consoleBrandRepository;
+    private final StorageService storageService;
 
     @Autowired
     private Environment env;
 
     @Autowired
-    public GamesService(GamesRepository gamesRepository, ConsoleRepository consoleRepository, ConsoleBrandRepository consoleBrandRepository) {
+    public GamesService(GamesRepository gamesRepository, ConsoleRepository consoleRepository, ConsoleBrandRepository consoleBrandRepository, StorageService storageService) {
         this.gamesRepository = gamesRepository;
         this.consoleRepository = consoleRepository;
         this.consoleBrandRepository = consoleBrandRepository;
+        this.storageService = storageService;
     }
     //@Cacheable
     public List<Games> getAllGames() {
@@ -61,10 +64,8 @@ public class GamesService {
     public Page<Games> getGamesByPage(int page, int size, String sortBy, int category) {
         Pageable range= PageRequest.of(page,size, Sort.by(sortBy).descending());
         if (category == 0){
-            System.out.println("i love pigpig");
             return gamesRepository.findAll(range);
         }
-        System.out.println("i dont love pigpig");
         return gamesRepository.findByConsoleId(category,range);
     }
     //@CacheEvict(  allEntries=true)
@@ -80,23 +81,24 @@ public class GamesService {
         if (gamesOptional.isPresent()){
             throw  new IllegalStateException("the games already exist");
         }
-        //check the file type
-        String filename = image.getOriginalFilename();
-        if (!filename.matches("^.*(png)$")){
-            throw new IllegalStateException("Only png file is accepted");
-        }
-
-        //generate unique file name
-        Random random = new Random();
-        String newFileName = String.format("%s%s",System.currentTimeMillis(),random.nextInt(100000)+".png");
-        String pathName = env.getProperty("imageLocation")+ newFileName;
-        //save the image
-        try{
-            byte[] bytes = image.getBytes();
-            Files.write(Paths.get(pathName), bytes);
-        } catch (IOException e) {
-            throw  new IllegalStateException("the image uploading fail");
-        }
+//        //check the file type
+//        String filename = image.getOriginalFilename();
+//        if (!filename.matches("^.*(png)$")){
+//            throw new IllegalStateException("Only png file is accepted");
+//        }
+//
+//        //generate unique file name
+//        Random random = new Random();
+//        String newFileName = String.format("%s%s",System.currentTimeMillis(),random.nextInt(100000)+".png");
+//        String pathName = env.getProperty("imageLocation")+ newFileName;
+//        //save the image
+//        try{
+//            byte[] bytes = image.getBytes();
+//            Files.write(Paths.get(pathName), bytes);
+//        } catch (IOException e) {
+//            throw  new IllegalStateException("the image uploading fail");
+//        }
+        String pathName = storageService.uploadFile(image);
         //save the game object
         Games game = new Games();
         game.setName(name);
