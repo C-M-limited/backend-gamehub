@@ -44,6 +44,10 @@ public class GameSalePostController {
     public  List<GameSalePost> getAllPostsByUser(@PathVariable("user_id") Long user_id){
         return gameSalePostService.getAllPostByUser(user_id);
     }
+    @GetMapping("/fewPosts")
+    public  List<GameSalePost> getTopFewPosts(@RequestParam("start_post_number") int start_post_number,@RequestParam("last_post_number")int last_post_number){
+        return gameSalePostService.getTopFewPosts(start_post_number,last_post_number);
+    }
     @PostMapping(path = "")
     @CacheEvict(  allEntries=true)
     public ResponseEntity addPosts(@RequestHeader("Authorization") String jwt, @RequestBody GameSalePost gameSalePost) throws UnsupportedEncodingException {

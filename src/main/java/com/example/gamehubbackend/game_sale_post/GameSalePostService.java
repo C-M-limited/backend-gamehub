@@ -11,6 +11,9 @@ import com.example.gamehubbackend.user_profile.UserProfile;
 import com.example.gamehubbackend.user_profile.UserProfileRepository;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -70,6 +73,12 @@ public class GameSalePostService {
         }
         return gameSalePostRepository.findAllPostsByUser(user_id);
     }
+    public List<GameSalePost> getTopFewPosts(int start_post_number, int last_post_number) {
+        Pageable range =  PageRequest.of(start_post_number, last_post_number);
+        return gameSalePostRepository.findGameSalePostByTimeStamp(range);
+    }
+
+    //Post
 
     public ResponseEntity addPosts(String jwt, GameSalePost gameSalePost) throws UnsupportedEncodingException {
         JwtUtil jwtToken = new JwtUtil();
@@ -115,4 +124,6 @@ public class GameSalePostService {
         gameSalePostRepository.deleteById(posts_id);
         return ("Success deleting the post with id: "+posts_id);
     }
+
+
 }

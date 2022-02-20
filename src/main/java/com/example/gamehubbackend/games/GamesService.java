@@ -6,9 +6,12 @@ import com.example.gamehubbackend.console_brand.ConsoleBrand;
 import com.example.gamehubbackend.console_brand.ConsoleBrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -53,6 +56,16 @@ public class GamesService {
             throw new IllegalStateException("Console does not exist");
         }
         return gamesRepository.findAllGamesByConsole(console_id);
+    }
+
+    public Page<Games> getGamesByPage(int page, int size, String sortBy, int category) {
+        Pageable range= PageRequest.of(page,size, Sort.by(sortBy).descending());
+        if (category == 0){
+            System.out.println("i love pigpig");
+            return gamesRepository.findAll(range);
+        }
+        System.out.println("i dont love pigpig");
+        return gamesRepository.findByConsoleId(category,range);
     }
     //@CacheEvict(  allEntries=true)
 //    @CachePut(key="#game.id")

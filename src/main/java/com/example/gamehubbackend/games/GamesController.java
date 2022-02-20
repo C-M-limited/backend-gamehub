@@ -1,10 +1,12 @@
 package com.example.gamehubbackend.games;
 
+import com.example.gamehubbackend.game_sale_post.GameSalePost;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,6 +38,10 @@ public class GamesController {
     @GetMapping("/console/{console_id}")
     public List<Games> getAllGamesByConsole(@PathVariable ("console_id") int console_id){
         return gamesService.getAllGamesByConsole(console_id);
+    }
+    @GetMapping("/byPage")
+    public Page<Games> getGamesByPage(@RequestParam("page") int page, @RequestParam("size")int size, @RequestParam("sortBy") String sortBy, @RequestParam("category") int category){
+        return gamesService.getGamesByPage(page,size,sortBy,category);
     }
     @CacheEvict(  allEntries=true)
     @PostMapping(path="")
