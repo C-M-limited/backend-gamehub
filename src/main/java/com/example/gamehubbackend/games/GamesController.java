@@ -40,7 +40,7 @@ public class GamesController {
         return gamesService.getAllGamesByConsole(console_id);
     }
     @GetMapping("/byPage")
-    public Page<Games> getGamesByPage(@RequestParam("page") int page, @RequestParam("size")int size, @RequestParam("sortBy") String sortBy, @RequestParam("category") int category){
+    public Page<Games> getGamesByPage(@RequestParam("page") int page, @RequestParam("size")int size, @RequestParam("sortBy") String sortBy, @RequestParam("category") String category){
         return gamesService.getGamesByPage(page,size,sortBy,category);
     }
     @CacheEvict(  allEntries=true)

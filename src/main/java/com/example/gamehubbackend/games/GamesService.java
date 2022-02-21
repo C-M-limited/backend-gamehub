@@ -61,12 +61,20 @@ public class GamesService {
         return gamesRepository.findAllGamesByConsole(console_id);
     }
 
-    public Page<Games> getGamesByPage(int page, int size, String sortBy, int category) {
+    public Page<Games> getGamesByPage(int page, int size, String sortBy, String category) {
         Pageable range= PageRequest.of(page,size, Sort.by(sortBy).descending());
-        if (category == 0){
-            return gamesRepository.findAll(range);
+        switch(category){
+            case "all" :
+                return gamesRepository.findAll(range);
+            case "playstation" :
+                return gamesRepository.findByConsoleId(1,range);
+            case "nintendo" :
+                return gamesRepository.findByConsoleId(2,range);
+            case "xbox" :
+                return gamesRepository.findByConsoleId(3,range);
         }
-        return gamesRepository.findByConsoleId(category,range);
+
+        return null;
     }
     //@CacheEvict(  allEntries=true)
 //    @CachePut(key="#game.id")
