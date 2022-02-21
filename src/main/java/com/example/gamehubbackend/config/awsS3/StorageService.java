@@ -14,6 +14,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Random;
+
+import static com.amazonaws.services.s3.model.CannedAccessControlList.PublicRead;
+
 @Slf4j
 @Service
 public class StorageService {
@@ -27,14 +30,17 @@ public class StorageService {
         File fileObj = convertMultiPartFileToFile(file);
         String filename = file.getOriginalFilename();
         //check it is image
-        if (!filename.matches("^.*(png)$"))
+        if (!filename.matches("^.*(png|jpg)$"))
             throw new IllegalStateException("Only png file is accepted");
         //generate unique file name
         Random random = new Random();
         String newFileName = String.format("%s%s",System.currentTimeMillis(),random.nextInt(100000)+filename);
-        s3Client.putObject(new PutObjectRequest(bucketName,newFileName,fileObj));
+        //uploadFile
+        s3Client.putObject(new PutObjectRequest(bucketName,newFileName,fileObj).withCannedAcl(PublicRead));
+
         fileObj.delete();
-        return newFileName;
+        String urlForTheImage = "https://"+bucketName+".s3.amazonaws.com/"+newFileName;
+        return urlForTheImage;
     }
     public byte[] downloadFile(String fileName) {
         S3Object s3Object = s3Client.getObject(bucketName, fileName);
@@ -60,7 +66,7 @@ public class StorageService {
             fos.write(file.getBytes());
         } catch (IOException e) {
             log.error("Error converting multipartFile to file", e);
-//            throw new IllegalStateException("Error converting multipartFile to file");
+            throw new IllegalStateException("Error converting multipartFile to file");
         }
         return convertedFile;
     }
