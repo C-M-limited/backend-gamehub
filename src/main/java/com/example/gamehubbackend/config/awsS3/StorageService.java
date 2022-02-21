@@ -31,7 +31,7 @@ public class StorageService {
         String filename = file.getOriginalFilename();
         //check it is image
         if (!filename.matches("^.*(png|jpg)$"))
-            throw new IllegalStateException("Only png file is accepted");
+            throw new IllegalStateException("Only png or jpg file is accepted");
         //generate unique file name
         Random random = new Random();
         String newFileName = String.format("%s%s",System.currentTimeMillis(),random.nextInt(100000)+filename);
