@@ -27,12 +27,12 @@ public class StorageService {
     private AmazonS3 s3Client;
 
     public String uploadFile(MultipartFile file){
-        File fileObj = convertMultiPartFileToFile(file);
         String filename = file.getOriginalFilename();
         //check it is image
         if (!filename.matches("^.*(png|jpg)$"))
             throw new IllegalStateException("Only png or jpg file is accepted");
         //generate unique file name
+        File fileObj = convertMultiPartFileToFile(file);
         Random random = new Random();
         String newFileName = String.format("%s%s",System.currentTimeMillis(),random.nextInt(100000)+filename);
         //uploadFile
