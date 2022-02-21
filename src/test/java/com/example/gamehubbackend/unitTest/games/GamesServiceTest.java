@@ -1,4 +1,4 @@
-package com.example.gamehubbackend.games;
+package com.example.gamehubbackend.unitTest.games;
 
 import com.example.gamehubbackend.console.Console;
 import com.example.gamehubbackend.console.ConsoleRepository;
@@ -6,6 +6,9 @@ import com.example.gamehubbackend.console.ConsoleService;
 import com.example.gamehubbackend.console_brand.ConsoleBrand;
 import com.example.gamehubbackend.console_brand.ConsoleBrandRepository;
 import com.example.gamehubbackend.console_brand.ConsoleBrandService;
+import com.example.gamehubbackend.games.Games;
+import com.example.gamehubbackend.games.GamesRepository;
+import com.example.gamehubbackend.games.GamesService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.example.gamehubbackend.game_sale_post;
+package com.example.gamehubbackend.unitTest.game_sale_post;
 
 import com.example.gamehubbackend.console.Console;
 import com.example.gamehubbackend.console.ConsoleRepository;
@@ -6,6 +6,9 @@ import com.example.gamehubbackend.console.ConsoleService;
 import com.example.gamehubbackend.console_brand.ConsoleBrand;
 import com.example.gamehubbackend.console_brand.ConsoleBrandRepository;
 import com.example.gamehubbackend.console_brand.ConsoleBrandService;
+import com.example.gamehubbackend.game_sale_post.GameSalePost;
+import com.example.gamehubbackend.game_sale_post.GameSalePostRepository;
+import com.example.gamehubbackend.game_sale_post.GameSalePostService;
 import com.example.gamehubbackend.games.Games;
 import com.example.gamehubbackend.games.GamesRepository;
 import com.example.gamehubbackend.games.GamesService;

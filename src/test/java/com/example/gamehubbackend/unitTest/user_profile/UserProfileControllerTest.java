@@ -1,7 +1,10 @@
-package com.example.gamehubbackend.user_profile;
+package com.example.gamehubbackend.unitTest.user_profile;
 
 import static org.hamcrest.Matchers.*;
 
+import com.example.gamehubbackend.user_profile.UserProfile;
+import com.example.gamehubbackend.user_profile.UserProfileRepository;
+import com.example.gamehubbackend.user_profile.UserRole;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.catalina.User;
 import org.junit.jupiter.api.Assertions;
@@ -41,7 +44,7 @@ public class UserProfileControllerTest {
     @MockBean
     UserProfileRepository userProfileRepository;
 
-    UserProfile PROFILE_1 = new UserProfile(1L, "martin","tsang","martin.tsang@gmail.com","password",UserRole.USER);
+    UserProfile PROFILE_1 = new UserProfile(1L, "martin","tsang","martin.tsang@gmail.com","password", UserRole.USER);
     UserProfile PROFILE_2 = new UserProfile(2L, "chris","lee","chris.lee@gmail.com","password",UserRole.USER);
     UserProfile PROFILE_3 = new UserProfile(3L,"tom","wong","tom.wong@gmail.com","password",UserRole.USER);
 

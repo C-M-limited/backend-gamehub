@@ -1,5 +1,8 @@
-package com.example.gamehubbackend.console_brand;
+package com.example.gamehubbackend.unitTest.console_brand;
 
+import com.example.gamehubbackend.console_brand.ConsoleBrand;
+import com.example.gamehubbackend.console_brand.ConsoleBrandRepository;
+import com.example.gamehubbackend.console_brand.ConsoleBrandService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

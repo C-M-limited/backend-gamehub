@@ -1,4 +1,4 @@
-package com.example.gamehubbackend.subscribed_post;
+package com.example.gamehubbackend.unitTest.subscribed_post;
 
 import com.example.gamehubbackend.console.Console;
 import com.example.gamehubbackend.console.ConsoleRepository;
@@ -12,6 +12,9 @@ import com.example.gamehubbackend.game_sale_post.GameSalePostService;
 import com.example.gamehubbackend.games.Games;
 import com.example.gamehubbackend.games.GamesRepository;
 import com.example.gamehubbackend.games.GamesService;
+import com.example.gamehubbackend.subscribed_post.SubscribedPost;
+import com.example.gamehubbackend.subscribed_post.SubscribedPostRepository;
+import com.example.gamehubbackend.subscribed_post.SubscribedPostService;
 import com.example.gamehubbackend.user_profile.UserProfile;
 import com.example.gamehubbackend.user_profile.UserProfileRepository;
 import com.example.gamehubbackend.user_profile.UserProfileService;

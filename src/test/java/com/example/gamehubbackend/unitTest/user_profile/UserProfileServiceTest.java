@@ -1,5 +1,9 @@
-package com.example.gamehubbackend.user_profile;
+package com.example.gamehubbackend.unitTest.user_profile;
 
+import com.example.gamehubbackend.user_profile.UserProfile;
+import com.example.gamehubbackend.user_profile.UserProfileRepository;
+import com.example.gamehubbackend.user_profile.UserProfileService;
+import com.example.gamehubbackend.user_profile.UserRole;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

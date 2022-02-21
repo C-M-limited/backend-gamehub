@@ -1,5 +1,8 @@
-package com.example.gamehubbackend.console;
+package com.example.gamehubbackend.unitTest.console;
 
+import com.example.gamehubbackend.console.Console;
+import com.example.gamehubbackend.console.ConsoleRepository;
+import com.example.gamehubbackend.console.ConsoleService;
 import com.example.gamehubbackend.console_brand.ConsoleBrand;
 import com.example.gamehubbackend.console_brand.ConsoleBrandRepository;
 import com.example.gamehubbackend.console_brand.ConsoleBrandService;
