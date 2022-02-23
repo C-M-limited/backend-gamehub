@@ -7,12 +7,10 @@ import com.example.gamehubbackend.console_brand.ConsoleBrand;
 import com.example.gamehubbackend.console_brand.ConsoleBrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.PageRequest;
+
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -76,6 +74,17 @@ public class GamesService {
 
         return null;
     }
+    public Slice<Games> getGamesByKeyword(String keyword, int page) {
+        Pageable range= PageRequest.of(page,10);
+        if (keyword==""){
+            return gamesRepository.findAll(range);
+        }
+        System.out.println(keyword);
+        return gamesRepository.findGamesByKeyword(keyword,range);
+    }
+
+    //POST
+
     //@CacheEvict(  allEntries=true)
 //    @CachePut(key="#game.id")
     public Games addGames(String name, MultipartFile image, int console_id) {
@@ -158,6 +167,7 @@ public class GamesService {
         gamesRepository.deleteById(game_id);
         return ("Success deleting the game with id: "+game_id);
     }
+
 
 
 }

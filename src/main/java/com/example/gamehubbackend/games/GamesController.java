@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,6 +44,11 @@ public class GamesController {
     public Page<Games> getGamesByPage(@RequestParam("page") int page, @RequestParam("size")int size, @RequestParam("sortBy") String sortBy, @RequestParam("category") String category){
         return gamesService.getGamesByPage(page,size,sortBy,category);
     }
+    @GetMapping("/byKeyword")
+    public Slice<Games> getGamesByKeyword(@RequestParam("keyword") String keyword, @RequestParam("page") int page){
+        return gamesService.getGamesByKeyword(keyword,page);
+    }
+
     @CacheEvict(  allEntries=true)
     @PostMapping(path="")
     public Games addGames(@RequestParam String name,@RequestParam MultipartFile image, @RequestParam int console_id){

@@ -2,6 +2,7 @@ package com.example.gamehubbackend.games;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -23,4 +24,7 @@ public interface GamesRepository extends JpaRepository<Games,Long> {
 
     @Query("SELECT g FROM Games g where g.console.id=?1")
     Page<Games> findByConsoleId(int category, Pageable range);
+
+    @Query("SELECT g FROM Games g WHERE g.name LIKE %?1%")
+    Slice<Games> findGamesByKeyword(String keyword, Pageable range);
 }
