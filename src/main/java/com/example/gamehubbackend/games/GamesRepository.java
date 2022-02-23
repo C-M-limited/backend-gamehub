@@ -25,6 +25,6 @@ public interface GamesRepository extends JpaRepository<Games,Long> {
     @Query("SELECT g FROM Games g where g.console.id=?1")
     Page<Games> findByConsoleId(int category, Pageable range);
 
-    @Query("SELECT g FROM Games g WHERE g.name LIKE %?1%")
+    @Query("SELECT g FROM Games g WHERE upper(g.name) LIKE upper(concat('%', ?1,'%'))")
     Slice<Games> findGamesByKeyword(String keyword, Pageable range);
 }

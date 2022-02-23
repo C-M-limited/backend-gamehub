@@ -79,7 +79,7 @@ public class GamesService {
         if (keyword==""){
             return gamesRepository.findAll(range);
         }
-        System.out.println(keyword);
+
         return gamesRepository.findGamesByKeyword(keyword,range);
     }
 
