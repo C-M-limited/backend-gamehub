@@ -33,6 +33,7 @@ public class JwtUtil implements Serializable {
      */
     public String generateToken(UserProfile user) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("name",user.getFirstName());
         claims.put( "id", user.getId());
         claims.put( "role", user.getRole() );
         claims.put( "email", user.getEmail() );
