@@ -1,5 +1,6 @@
 package com.example.gamehubbackend.game_sale_post;
 
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -20,6 +21,5 @@ public interface GameSalePostRepository extends JpaRepository<GameSalePost,Long>
 
     @Query("SELECT p FROM GameSalePost p WHERE p.userProfile.id=?1")
     List<GameSalePost> findAllPostsByUser(Long user_id);
-    @Query("SELECT p FROM GameSalePost p ORDER BY p.created_date DESC ")
-    List<GameSalePost> findGameSalePostByTimeStamp(Pageable range);
+
 }

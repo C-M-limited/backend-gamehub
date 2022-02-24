@@ -11,9 +11,7 @@ import com.example.gamehubbackend.user_profile.UserProfile;
 import com.example.gamehubbackend.user_profile.UserProfileRepository;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -73,9 +71,11 @@ public class GameSalePostService {
         }
         return gameSalePostRepository.findAllPostsByUser(user_id);
     }
-    public List<GameSalePost> getTopFewPosts(int start_post_number, int last_post_number) {
-        Pageable range =  PageRequest.of(start_post_number, last_post_number);
-        return gameSalePostRepository.findGameSalePostByTimeStamp(range);
+    //TODO: This route is not working, figure it out later
+    public Slice<GameSalePost> getTopFewPosts(int page, int size) {
+        Pageable range= PageRequest.of(0,10);
+//        Pageable range =  PageRequest.of(page,size, Sort.by("created_date").descending());
+        return gameSalePostRepository.findAll(range);
     }
 
     //Post

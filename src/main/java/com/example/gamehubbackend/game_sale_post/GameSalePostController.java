@@ -4,6 +4,7 @@ import com.example.gamehubbackend.config.jwt.JwtUtil;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,8 +46,8 @@ public class GameSalePostController {
         return gameSalePostService.getAllPostByUser(user_id);
     }
     @GetMapping("/fewPosts")
-    public  List<GameSalePost> getTopFewPosts(@RequestParam("start_post_number") int start_post_number,@RequestParam("last_post_number")int last_post_number){
-        return gameSalePostService.getTopFewPosts(start_post_number,last_post_number);
+    public Slice<GameSalePost> getTopFewPosts(@RequestParam("page") int page, @RequestParam("size")int size){
+        return gameSalePostService.getTopFewPosts(page,size);
     }
     @PostMapping(path = "")
     @CacheEvict(  allEntries=true)
