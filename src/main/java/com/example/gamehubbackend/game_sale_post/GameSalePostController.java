@@ -55,8 +55,8 @@ public class GameSalePostController {
     }
 
     @GetMapping("/byPage")
-    public Slice<?>  getPostsByPage(@RequestParam("page") int page, @RequestParam("size")int size, @RequestParam("sortBy") String sortBy, @RequestParam("category") String category){
-        return gameSalePostService.getPostsByPage(page,size,sortBy,category);
+    public Slice<?>  getPostsByPage(@RequestParam("page") int page, @RequestParam("size")int size, @RequestParam("sortBy") String sortBy, @RequestParam("asc") Boolean asc, @RequestParam("category") String category){
+        return gameSalePostService.getPostsByPage(page,size,sortBy,asc,category);
     }
 
     @PostMapping(path = "")

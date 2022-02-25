@@ -48,9 +48,32 @@ public class GameSalePostService {
         return gameSalePostRepository.findAllPostsByBrand(console_brand_id);
     }
 
-    public Slice<?>  getPostsByPage(int page, int size, String sortBy, String category) {
-        Pageable range= PageRequest.of(0,10,Sort.by(sortBy).descending());
-        return gameSalePostRepository.findAllPostWithUserName(category, range);
+    public Slice<?>  getPostsByPage(int page, int size, String sortBy, Boolean asc, String category) {
+        Pageable range;
+        if (sortBy.equals("id") && asc) {
+            range = PageRequest.of(0, 10, Sort.by("id").ascending());
+        }
+        else if (sortBy.equals("id") && !asc) {
+            range = PageRequest.of(0, 10, Sort.by("id").descending());
+        }
+        else if (sortBy.equals("price") && asc) {
+            range = PageRequest.of(0, 10, Sort.by("price").ascending());
+        }
+        else if (sortBy.equals("price") && !asc) {
+            range = PageRequest.of(0, 10, Sort.by("price").descending());
+        }
+        else if (sortBy.equals("created_date") && !asc) {
+            range = PageRequest.of(0, 10, Sort.by("created_date").descending());
+        }
+        else {
+            range = PageRequest.of(0, 10, Sort.by("id").ascending());
+        }
+
+        if (category.equals("all")) {
+            return gameSalePostRepository.findAllPostWithSorting(range);
+        }
+
+        return gameSalePostRepository.findAllPostWithCategoryWithSorting(category, range);
     }
 
     public List<GameSalePost> getAllPostsByConsole(int console_id) {
