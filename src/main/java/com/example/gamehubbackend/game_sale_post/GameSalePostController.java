@@ -37,9 +37,13 @@ public class GameSalePostController {
     public List<GameSalePost> getAllPostsByConsole(@PathVariable("console_id") int console_id){
         return gameSalePostService.getAllPostsByConsole(console_id);
     }
-    @GetMapping("games/{games_id}")
+    @GetMapping("/games/{games_id}")
     public List<GameSalePost> getAllPostsByGame(@PathVariable("games_id")Long games_id){
         return gameSalePostService.getAllPostsByGame(games_id);
+    }
+    @GetMapping("/id/{game_sale_post_id}")
+    public List<?> getPostByGameSalePostId(@PathVariable("game_sale_post_id")Long game_sale_post_id){
+        return gameSalePostService.getPostByGameSalePostID(game_sale_post_id);
     }
     @GetMapping("user/{user_id}")
     public  List<GameSalePost> getAllPostsByUser(@PathVariable("user_id") Long user_id){
@@ -49,6 +53,12 @@ public class GameSalePostController {
     public Slice<GameSalePost> getTopFewPosts(@RequestParam("page") int page, @RequestParam("size")int size){
         return gameSalePostService.getTopFewPosts(page,size);
     }
+
+    @GetMapping("/byPage")
+    public Slice<?>  getPostsByPage(@RequestParam("page") int page, @RequestParam("size")int size, @RequestParam("sortBy") String sortBy, @RequestParam("category") String category){
+        return gameSalePostService.getPostsByPage(page,size,sortBy,category);
+    }
+
     @PostMapping(path = "")
     @CacheEvict(  allEntries=true)
     public ResponseEntity addPosts(@RequestHeader("Authorization") String jwt, @RequestBody GameSalePost gameSalePost) throws UnsupportedEncodingException {

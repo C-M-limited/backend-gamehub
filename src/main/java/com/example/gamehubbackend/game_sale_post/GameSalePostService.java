@@ -48,6 +48,11 @@ public class GameSalePostService {
         return gameSalePostRepository.findAllPostsByBrand(console_brand_id);
     }
 
+    public Slice<?>  getPostsByPage(int page, int size, String sortBy, String category) {
+        Pageable range= PageRequest.of(0,10,Sort.by(sortBy).descending());
+        return gameSalePostRepository.findAllPostWithUserName(category, range);
+    }
+
     public List<GameSalePost> getAllPostsByConsole(int console_id) {
         Optional<Console> optionalConsole= consoleRepository.findConsoleByID(console_id);
         if (!optionalConsole.isPresent()){
@@ -62,6 +67,14 @@ public class GameSalePostService {
             throw new IllegalStateException("Games does not exist");
         }
         return gameSalePostRepository.findAllPostsByGames(games_id);
+    }
+
+    public List<?> getPostByGameSalePostID(Long game_sale_post_id) {
+        Optional<Games> optionalGames= gamesRepository.findById(game_sale_post_id);
+        if (!optionalGames.isPresent()){
+            throw new IllegalStateException("Games sale post does not exist");
+        }
+        return gameSalePostRepository.findPostByGameSalePostID(game_sale_post_id);
     }
 
     public List<GameSalePost> getAllPostByUser(Long user_id) {
