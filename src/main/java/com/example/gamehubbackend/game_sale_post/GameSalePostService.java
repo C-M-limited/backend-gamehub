@@ -93,8 +93,8 @@ public class GameSalePostService {
     }
 
     public List<?> getPostByGameSalePostID(Long game_sale_post_id) {
-        Optional<Games> optionalGames= gamesRepository.findById(game_sale_post_id);
-        if (!optionalGames.isPresent()){
+        Optional<GameSalePost> optionalGameSalePost= gameSalePostRepository.findById(game_sale_post_id);
+        if (!optionalGameSalePost.isPresent()){
             throw new IllegalStateException("Games sale post does not exist");
         }
         return gameSalePostRepository.findPostByGameSalePostID(game_sale_post_id);
