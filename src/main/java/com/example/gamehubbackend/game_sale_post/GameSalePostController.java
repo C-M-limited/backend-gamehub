@@ -4,6 +4,7 @@ import com.example.gamehubbackend.config.jwt.JwtUtil;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +56,7 @@ public class GameSalePostController {
     }
 
     @GetMapping("/byPage")
-    public Slice<?>  getPostsByPage(@RequestParam("page") int page, @RequestParam("size")int size, @RequestParam("sortBy") String sortBy, @RequestParam("asc") Boolean asc, @RequestParam("category") String category){
+    public Page<?> getPostsByPage(@RequestParam("page") int page, @RequestParam("size")int size, @RequestParam("sortBy") String sortBy, @RequestParam("asc") Boolean asc, @RequestParam("category") String category){
         return gameSalePostService.getPostsByPage(page,size,sortBy,asc,category);
     }
 

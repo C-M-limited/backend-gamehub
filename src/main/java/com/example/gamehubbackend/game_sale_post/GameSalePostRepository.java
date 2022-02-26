@@ -1,5 +1,6 @@
 package com.example.gamehubbackend.game_sale_post;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,12 +23,12 @@ public interface GameSalePostRepository extends JpaRepository<GameSalePost,Long>
     @Query("SELECT p FROM GameSalePost p WHERE p.userProfile.id=?1")
     List<GameSalePost> findAllPostsByUser(Long user_id);
 
-    @Query("SELECT new com.example.gamehubbackend.game_sale_post.GameSaleResponse(p, u.lastName, g.name) FROM GameSalePost p LEFT JOIN p.games g LEFT JOIN p.userProfile u WHERE g.console.console_brand.name = :category")
-    Slice<?> findAllPostWithCategoryWithSorting(String category, Pageable range);
+    @Query("SELECT new com.example.gamehubbackend.game_sale_post.GameSaleResponse(p, u.lastName, g.name, g.image_url) FROM GameSalePost p LEFT JOIN p.games g LEFT JOIN p.userProfile u WHERE g.console.console_brand.name = :category")
+    Page<?> findAllPostWithCategoryWithSorting(String category, Pageable range);
 
-    @Query("SELECT new com.example.gamehubbackend.game_sale_post.GameSaleResponse(p, u.lastName, g.name) FROM GameSalePost p LEFT JOIN p.games g LEFT JOIN p.userProfile u")
-    Slice<?> findAllPostWithSorting(Pageable range);
+    @Query("SELECT new com.example.gamehubbackend.game_sale_post.GameSaleResponse(p, u.lastName, g.name, g.image_url) FROM GameSalePost p LEFT JOIN p.games g LEFT JOIN p.userProfile u")
+    Page<?> findAllPostWithSorting(Pageable range);
 
-    @Query("SELECT new com.example.gamehubbackend.game_sale_post.GameSaleResponse(p, u.lastName, g.name) FROM GameSalePost p LEFT JOIN p.games g LEFT JOIN p.userProfile u WHERE p.id=:game_sale_post_id")
+    @Query("SELECT new com.example.gamehubbackend.game_sale_post.GameSaleResponse(p, u.lastName, g.name, g.image_url) FROM GameSalePost p LEFT JOIN p.games g LEFT JOIN p.userProfile u WHERE p.id=:game_sale_post_id")
     List<?> findPostByGameSalePostID(Long game_sale_post_id);
 }

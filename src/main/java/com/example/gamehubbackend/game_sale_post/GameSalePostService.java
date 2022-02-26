@@ -48,7 +48,7 @@ public class GameSalePostService {
         return gameSalePostRepository.findAllPostsByBrand(console_brand_id);
     }
 
-    public Slice<?>  getPostsByPage(int page, int size, String sortBy, Boolean asc, String category) {
+    public Page<?>  getPostsByPage(int page, int size, String sortBy, Boolean asc, String category) {
         Pageable range;
         if (sortBy.equals("id") && asc) {
             range = PageRequest.of(0, 10, Sort.by("id").ascending());
@@ -93,7 +93,7 @@ public class GameSalePostService {
     }
 
     public List<?> getPostByGameSalePostID(Long game_sale_post_id) {
-        Optional<Games> optionalGames= gamesRepository.findById(game_sale_post_id);
+        Optional<GameSalePost> optionalGames= gameSalePostRepository.findById(game_sale_post_id);
         if (!optionalGames.isPresent()){
             throw new IllegalStateException("Games sale post does not exist");
         }
