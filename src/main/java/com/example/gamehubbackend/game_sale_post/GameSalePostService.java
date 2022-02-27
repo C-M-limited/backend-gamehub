@@ -124,7 +124,7 @@ public class GameSalePostService {
 
     public Slice<?> getLatestPosts() {
         Pageable range= PageRequest.of(0,5,Sort.by("id").descending());
-        return gameSalePostRepository.findAllPostWithConsoleName(range);
+        return gameSalePostRepository.findLatestPosts(range);
     }
     //Post
 
