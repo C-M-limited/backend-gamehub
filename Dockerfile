@@ -3,7 +3,8 @@
 # docker run --name redis -p 6379:6379 -d redis
 # docker run -di --name gamehub_backend -p 8080:8080 game-hub-backend.jar
 # docker run --name jenkins -p 9191:8080 -p 50000:50000 -d -v jenkins_home:/var/jenkins_home jenkins/jenkins
-
+# docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name=myes docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+# docker run --link myes:elasticsearch -p 5601:5601 docker.elastic.co/kibana/kibana:7.10.1
 #build image
 # docker build -t game-hub-backend.jar .
 
