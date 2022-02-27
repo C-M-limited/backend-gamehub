@@ -4,6 +4,9 @@ import com.example.gamehubbackend.console.Console;
 import com.example.gamehubbackend.console.ConsoleRepository;
 import com.example.gamehubbackend.console_brand.ConsoleBrand;
 import com.example.gamehubbackend.console_brand.ConsoleBrandRepository;
+import com.example.gamehubbackend.game_sale_post.post_clickRate.PostClickRate;
+import com.example.gamehubbackend.game_sale_post.post_clickRate.PostClickRateRepository;
+import com.example.gamehubbackend.game_sale_post.post_clickRate.PostClickRateService;
 import com.example.gamehubbackend.games.Games;
 import com.example.gamehubbackend.games.GamesRepository;
 import com.example.gamehubbackend.config.jwt.JwtUtil;
@@ -27,14 +30,18 @@ public class GameSalePostService {
     private final ConsoleRepository consoleRepository;
     private final ConsoleBrandRepository consoleBrandRepository;
     private final UserProfileRepository userProfileRepository;
+    private final PostClickRateService postClickRateService;
+    private final PostClickRateRepository postClickRateRepository;
 
     @Autowired
-    public GameSalePostService(GameSalePostRepository gameSalePostRepository, GamesRepository gamesRepository, ConsoleRepository consoleRepository, ConsoleBrandRepository consoleBrandRepository, UserProfileRepository userProfileRepository) {
+    public GameSalePostService(GameSalePostRepository gameSalePostRepository, GamesRepository gamesRepository, ConsoleRepository consoleRepository, ConsoleBrandRepository consoleBrandRepository, UserProfileRepository userProfileRepository, PostClickRateService postClickRateService, PostClickRateRepository postClickRateRepository) {
         this.gameSalePostRepository = gameSalePostRepository;
         this.gamesRepository = gamesRepository;
         this.consoleRepository = consoleRepository;
         this.consoleBrandRepository = consoleBrandRepository;
         this.userProfileRepository = userProfileRepository;
+        this.postClickRateService = postClickRateService;
+        this.postClickRateRepository = postClickRateRepository;
     }
     public List<GameSalePost> getAllPosts() {
         return gameSalePostRepository.findAll();
@@ -97,6 +104,7 @@ public class GameSalePostService {
         if (!optionalGameSalePost.isPresent()){
             throw new IllegalStateException("Games sale post does not exist");
         }
+        postClickRateService.addClickRate(game_sale_post_id);
         return gameSalePostRepository.findPostByGameSalePostID(game_sale_post_id);
     }
 
@@ -114,6 +122,10 @@ public class GameSalePostService {
         return gameSalePostRepository.findAll(range);
     }
 
+    public Slice<?> getLatestPosts() {
+        Pageable range= PageRequest.of(0,5,Sort.by("id").descending());
+        return gameSalePostRepository.findAllPostWithConsoleName(range);
+    }
     //Post
 
     public ResponseEntity addPosts(String jwt, GameSalePost gameSalePost) throws UnsupportedEncodingException {
@@ -130,6 +142,11 @@ public class GameSalePostService {
         }
         gameSalePost.setGames(optionalGames.get());
         gameSalePost.setUserProfile(userProfileOptional.get());
+        PostClickRate postClickRate = new PostClickRate();
+        //set ClickRate
+        postClickRate.setClickRate(0L);
+        postClickRate.setGameSalePost(gameSalePost);
+        postClickRateRepository.save(postClickRate);
         return ResponseEntity.status(HttpStatus.OK).body(gameSalePostRepository.save(gameSalePost));
     }
 

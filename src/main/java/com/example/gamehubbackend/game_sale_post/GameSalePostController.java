@@ -60,6 +60,11 @@ public class GameSalePostController {
         return gameSalePostService.getPostsByPage(page,size,sortBy,asc,category);
     }
 
+    @GetMapping("/latestPost")
+    public Slice<?> getLatestPosts(){
+        return gameSalePostService.getLatestPosts();
+    }
+
     @PostMapping(path = "")
     @CacheEvict(  allEntries=true)
     public ResponseEntity addPosts(@RequestHeader("Authorization") String jwt, @RequestBody GameSalePost gameSalePost) throws UnsupportedEncodingException {

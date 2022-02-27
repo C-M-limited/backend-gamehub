@@ -31,4 +31,7 @@ public interface GameSalePostRepository extends JpaRepository<GameSalePost,Long>
 
     @Query("SELECT new com.example.gamehubbackend.game_sale_post.GameSaleResponse(p, u.lastName, g.name, g.image_url) FROM GameSalePost p LEFT JOIN p.games g LEFT JOIN p.userProfile u WHERE p.id=:game_sale_post_id")
     List<?> findPostByGameSalePostID(Long game_sale_post_id);
+
+    @Query("SELECT new com.example.gamehubbackend.game_sale_post.GameSaleResponse(p, u.lastName, g.name, g.image_url) FROM GameSalePost p LEFT JOIN p.games g LEFT JOIN p.userProfile u ")
+    Slice<?> findAllPostWithConsoleName(Pageable range);
 }

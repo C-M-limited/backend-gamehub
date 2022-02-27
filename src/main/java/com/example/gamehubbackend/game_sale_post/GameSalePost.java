@@ -1,5 +1,6 @@
 package com.example.gamehubbackend.game_sale_post;
 
+import com.example.gamehubbackend.game_sale_post.post_clickRate.PostClickRate;
 import com.example.gamehubbackend.games.Games;
 import com.example.gamehubbackend.subscribed_post.SubscribedPost;
 import com.example.gamehubbackend.user_profile.UserProfile;
@@ -49,6 +50,10 @@ public class GameSalePost implements Serializable {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set<SubscribedPost> subscribedPosts;
 
+    @OneToOne(mappedBy = "gameSalePost")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private PostClickRate postClickRate;
+
     public GameSalePost(UserProfile userProfile, Games games, int price, String place_for_transaction, String description, String contact_method) {
         this.userProfile = userProfile;
         this.games = games;
@@ -57,7 +62,6 @@ public class GameSalePost implements Serializable {
         this.description = description;
         this.contact_method = contact_method;
     }
-
     public Long getUser_Id(){
         return userProfile.getId();
     }
