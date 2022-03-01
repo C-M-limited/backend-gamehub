@@ -3,10 +3,10 @@ version: 0.2
 phases:
   install:
     commands:
-      - sudo yum install java-17-amazon-corretto-headless
-      - sudo wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
-      - sudo sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
-      - sudo yum install -y apache-maven
+      - yum install java-17-amazon-corretto-headless
+      - wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
+      - sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
+      - yum install -y apache-maven
   build:
     commands:
       - echo Build started on `date`
