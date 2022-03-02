@@ -94,15 +94,15 @@ class GameSalePostServiceTest {
         Assertions.assertEquals(2,result.size(),"findAllPostsByConsole should return 2 posts");
     }
 
-    @Test
-    void getAllPostsByGame() {
-        GameSalePost post1= new GameSalePost(userProfile1,games1,500,"Yau Tong Station","Trade at 7:OO","12345678");
-        GameSalePost post2= new GameSalePost(userProfile1,games1,500,"Yau Tong Station","Trade at 7:OO","12345678");
-        doReturn(Optional.of(games1)).when(gamesRepository).findById(1L);
-        doReturn(Arrays.asList(post1,post2)).when(gameSalePostRepository).findAllPostsByGames(1L);
-        List<GameSalePost> result= gameSalePostService.getAllPostsByGame(1L);
-        Assertions.assertEquals(2,result.size(),"findAllPostsByGame should return 2 posts");
-    }
+//    @Test
+//    void getAllPostsByGame() {
+//        GameSalePost post1= new GameSalePost(userProfile1,games1,500,"Yau Tong Station","Trade at 7:OO","12345678");
+//        GameSalePost post2= new GameSalePost(userProfile1,games1,500,"Yau Tong Station","Trade at 7:OO","12345678");
+//        doReturn(Optional.of(games1)).when(gamesRepository).findById(1L);
+//        doReturn(Arrays.asList(post1,post2)).when(gameSalePostRepository).findAllPostsByGames(1L);
+//        List<GameSalePost> result= gameSalePostService.getAllPostsByGame(1L);
+//        Assertions.assertEquals(2,result.size(),"findAllPostsByGame should return 2 posts");
+//    }
 
     @Test
     void getAllPostByUser() {

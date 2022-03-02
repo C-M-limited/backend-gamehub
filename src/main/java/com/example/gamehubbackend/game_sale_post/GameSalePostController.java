@@ -39,7 +39,7 @@ public class GameSalePostController {
         return gameSalePostService.getAllPostsByConsole(console_id);
     }
     @GetMapping("/games/{games_id}")
-    public List<GameSalePost> getAllPostsByGame(@PathVariable("games_id")Long games_id){
+    public List<?> getAllPostsByGame(@PathVariable("games_id")Long games_id){
         return gameSalePostService.getAllPostsByGame(games_id);
     }
     @GetMapping("/id/{game_sale_post_id}")
