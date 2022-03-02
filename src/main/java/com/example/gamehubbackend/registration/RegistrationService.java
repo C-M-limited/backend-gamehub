@@ -31,6 +31,7 @@ public class RegistrationService {
                         request.getLastName(),
                         request.getEmail(),
                         request.getPassword(),
+                        request.getImageKey(),
                         UserRole.USER
                 )
         );

@@ -37,6 +37,7 @@ public class JwtUtil implements Serializable {
         claims.put( "id", user.getId());
         claims.put( "role", user.getRole() );
         claims.put( "email", user.getEmail() );
+        claims.put( "imageKey", user.getImageKey());
         return Jwts.builder()
                 .setClaims( claims )
                 .setExpiration( new Date( Instant.now().toEpochMilli() + EXPIRATION_TIME  ) )

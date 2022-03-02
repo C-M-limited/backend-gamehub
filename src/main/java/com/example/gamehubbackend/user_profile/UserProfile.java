@@ -24,6 +24,7 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
 public class UserProfile implements UserDetails {
     @Id
@@ -43,6 +44,7 @@ public class UserProfile implements UserDetails {
     private Timestamp created_at;
     @LastModifiedDate
     private Timestamp updated_at;
+    private String imageKey;
 
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -67,6 +69,15 @@ public class UserProfile implements UserDetails {
         this.email = email;
         this.password = password;
         this.role = role;
+    }
+
+    public UserProfile(String firstName, String lastName, String email, String password, String imageKey, UserRole user) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.imageKey = imageKey;
     }
 
     @Override
