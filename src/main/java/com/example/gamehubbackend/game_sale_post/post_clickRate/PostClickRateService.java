@@ -19,7 +19,7 @@ public class PostClickRateService {
     }
 
     public Slice<?> getTodaysPick(){
-        Pageable range= PageRequest.of(0,5, Sort.by("clickRate").descending());
+        Pageable range= PageRequest.of(0,4, Sort.by("clickRate").descending());
         return postClickRateRepository.findTodaysPick(range);
     }
 

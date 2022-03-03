@@ -123,7 +123,7 @@ public class GameSalePostService {
     }
 
     public Slice<?> getLatestPosts() {
-        Pageable range= PageRequest.of(0,5,Sort.by("id").descending());
+        Pageable range= PageRequest.of(0,4,Sort.by("id").descending());
         return gameSalePostRepository.findLatestPosts(range);
     }
     //Post
