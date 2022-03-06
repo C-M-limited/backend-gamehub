@@ -152,21 +152,22 @@ public class GameSalePostService {
     }
     @Transactional
     public ResponseEntity editPosts(String jwt,GameSalePost gameSalePost) throws UnsupportedEncodingException {
+        JwtUtil jwtToken = new JwtUtil();
+        JSONObject jwtBody = jwtToken.decodeToken(jwt);
+        Long userId = Long.valueOf((int) jwtBody.get("id"));
 
         Long post_id =gameSalePost.getId();
         GameSalePost postOnDB = gameSalePostRepository.findById(post_id)
                 .orElseThrow(()->new IllegalStateException(("the posts with id "+post_id+" does not exist")));
         Games gamesOnDB = gamesRepository.findById(gameSalePost.getGames_ID())
                 .orElseThrow(()->new IllegalStateException(("games with id "+ gameSalePost.getGames_ID() +" does not exist")));
-        UserProfile userOnDB = userProfileRepository.findById(gameSalePost.getUser_Id())
-                .orElseThrow(()->new IllegalStateException(("user with id "+ gameSalePost.getUser_Id() +" does not exist")));
+        UserProfile userOnDB = userProfileRepository.findById(userId)
+                .orElseThrow(()->new IllegalStateException(("user with id "+ userId +" does not exist")));
         //validate user
-        JwtUtil jwtToken = new JwtUtil();
-        JSONObject jwtBody = jwtToken.decodeToken(jwt);
-        Long userId = Long.valueOf((int) jwtBody.get("id"));
         if (postOnDB.getUser_Id()!= userId){
             throw new IllegalStateException("this post is not own by another user");
         }
+        //edit content
         postOnDB.setPrice(gameSalePost.getPrice());
         postOnDB.setPlace_for_transaction(gameSalePost.getPlace_for_transaction());
         postOnDB.setDescription(gameSalePost.getDescription());
