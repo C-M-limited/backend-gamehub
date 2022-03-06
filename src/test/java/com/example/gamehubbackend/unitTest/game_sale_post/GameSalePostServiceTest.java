@@ -124,16 +124,16 @@ class GameSalePostServiceTest {
 //        Assertions.assertEquals(500,result.getPrice(),"Should save a post with price 500");
 //    }
 
-    @Test
-    void editPosts() {
-        GameSalePost post1= new GameSalePost(userProfile1,games1,500,"Yau Tong Station","Trade at 7:OO","12345678");
-        GameSalePost post2= new GameSalePost(userProfile1,games1,600,"Yau Tong Station2","Trade at 7:OO","12345678");
-        doReturn(Optional.of(post1)).when(gameSalePostRepository).findById(null);
-        doReturn(Optional.of(games1)).when(gamesRepository).findById(null);
-        doReturn(Optional.of(userProfile1)).when((userProfileRepository)).findById(null);
-        GameSalePost result= gameSalePostService.editPosts(post2);
-        Assertions.assertEquals(600,result.getPrice(),"The price should be changed to 600");
-    }
+//    @Test
+//    void editPosts() {
+//        GameSalePost post1= new GameSalePost(userProfile1,games1,500,"Yau Tong Station","Trade at 7:OO","12345678");
+//        GameSalePost post2= new GameSalePost(userProfile1,games1,600,"Yau Tong Station2","Trade at 7:OO","12345678");
+//        doReturn(Optional.of(post1)).when(gameSalePostRepository).findById(null);
+//        doReturn(Optional.of(games1)).when(gamesRepository).findById(null);
+//        doReturn(Optional.of(userProfile1)).when((userProfileRepository)).findById(null);
+//        GameSalePost result= gameSalePostService.editPosts(post2);
+//        Assertions.assertEquals(600,result.getPrice(),"The price should be changed to 600");
+//    }
 
 //    @Test
 //    void deletePosts() {

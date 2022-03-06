@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
@@ -149,8 +150,9 @@ public class GameSalePostService {
         postClickRateRepository.save(postClickRate);
         return ResponseEntity.status(HttpStatus.OK).body(gameSalePostRepository.save(gameSalePost));
     }
+    @Transactional
+    public ResponseEntity editPosts(String jwt,GameSalePost gameSalePost) throws UnsupportedEncodingException {
 
-    public GameSalePost editPosts(GameSalePost gameSalePost) {
         Long post_id =gameSalePost.getId();
         GameSalePost postOnDB = gameSalePostRepository.findById(post_id)
                 .orElseThrow(()->new IllegalStateException(("the posts with id "+post_id+" does not exist")));
@@ -158,24 +160,40 @@ public class GameSalePostService {
                 .orElseThrow(()->new IllegalStateException(("games with id "+ gameSalePost.getGames_ID() +" does not exist")));
         UserProfile userOnDB = userProfileRepository.findById(gameSalePost.getUser_Id())
                 .orElseThrow(()->new IllegalStateException(("user with id "+ gameSalePost.getUser_Id() +" does not exist")));
+        //validate user
+        JwtUtil jwtToken = new JwtUtil();
+        JSONObject jwtBody = jwtToken.decodeToken(jwt);
+        Long userId = Long.valueOf((int) jwtBody.get("id"));
+        if (postOnDB.getUser_Id()!= userId){
+            throw new IllegalStateException("this post is not own by another user");
+        }
         postOnDB.setPrice(gameSalePost.getPrice());
         postOnDB.setPlace_for_transaction(gameSalePost.getPlace_for_transaction());
         postOnDB.setDescription(gameSalePost.getDescription());
         postOnDB.setContact_method(gameSalePost.getContact_method());
         postOnDB.setUserProfile(userOnDB);
         postOnDB.setGames(gamesOnDB);
-        return postOnDB;
+        return ResponseEntity.status(HttpStatus.OK).body(postOnDB);
+//        return postOnDB;
 
 
     }
 
-    public String deletePosts(Long posts_id) {
+    public ResponseEntity deletePosts(String jwt, Long posts_id) throws UnsupportedEncodingException {
         Optional<GameSalePost> gameSalePostOptional= gameSalePostRepository.findById(posts_id);
         if (!gameSalePostOptional.isPresent()){
             throw  new IllegalStateException("the posts with id "+posts_id+" does not exist");
         }
+        //validate user
+        JwtUtil jwtToken = new JwtUtil();
+        JSONObject jwtBody = jwtToken.decodeToken(jwt);
+        Long userId = Long.valueOf((int) jwtBody.get("id"));
+        if (gameSalePostOptional.get().getUser_Id()!= userId){
+            throw new IllegalStateException("this post is not own by another user");
+        }
         gameSalePostRepository.deleteById(posts_id);
-        return ("Success deleting the post with id: "+posts_id);
+        return ResponseEntity.status(HttpStatus.OK).body("Success deleting the post with id: "+posts_id);
+//        return ("Success deleting the post with id: "+posts_id);
     }
 
 

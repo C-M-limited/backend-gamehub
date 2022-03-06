@@ -80,13 +80,26 @@ public class GameSalePostController {
     //    TODO: Cache
 //    @CachePut(key ="#g" )
     @PutMapping(path="")
-    public GameSalePost editPosts(@RequestBody GameSalePost gameSalePost){
-        return gameSalePostService.editPosts(gameSalePost);
+    @CacheEvict(  allEntries=true)
+    public ResponseEntity editPosts(@RequestHeader("Authorization") String jwt,@RequestBody GameSalePost gameSalePost)throws UnsupportedEncodingException{
+        JwtUtil jwtToken = new JwtUtil();
+        try {
+            jwtToken.validateToken(jwt);
+        } catch (AuthException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }
+        return gameSalePostService.editPosts(jwt,gameSalePost);
     }
-    @DeleteMapping("{posts_id}")
-    @CacheEvict(key="#posts_id")
-    public String deletePosts(@RequestParam ("posts_id") Long posts_id ){
-        return gameSalePostService.deletePosts(posts_id);
+    @DeleteMapping("/{posts_id}")
+    @CacheEvict(  allEntries=true)
+    public ResponseEntity deletePosts(@RequestHeader("Authorization") String jwt,@PathVariable ("posts_id") Long posts_id ) throws UnsupportedEncodingException {
+        JwtUtil jwtToken = new JwtUtil();
+        try {
+            jwtToken.validateToken(jwt);
+        } catch (AuthException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }
+        return gameSalePostService.deletePosts(jwt,posts_id);
     }
 
 
