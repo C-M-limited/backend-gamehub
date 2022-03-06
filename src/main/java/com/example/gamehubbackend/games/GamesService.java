@@ -83,6 +83,9 @@ public class GamesService {
         return gamesRepository.findGamesByKeyword(keyword,range);
     }
 
+    public Optional<Games> getGamesById(Long game_id) {
+        return gamesRepository.findById(game_id);
+    }
     //POST
 
     //@CacheEvict(  allEntries=true)
@@ -167,7 +170,6 @@ public class GamesService {
         gamesRepository.deleteById(game_id);
         return ("Success deleting the game with id: "+game_id);
     }
-
 
 
 }

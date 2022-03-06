@@ -104,15 +104,15 @@ class GameSalePostServiceTest {
 //        Assertions.assertEquals(2,result.size(),"findAllPostsByGame should return 2 posts");
 //    }
 
-    @Test
-    void getAllPostByUser() {
-        GameSalePost post1= new GameSalePost(userProfile1,games1,500,"Yau Tong Station","Trade at 7:OO","12345678");
-        GameSalePost post2= new GameSalePost(userProfile1,games1,500,"Yau Tong Station","Trade at 7:OO","12345678");
-        doReturn(Optional.of(userProfile1)).when(userProfileRepository).findById(1L);
-        doReturn(Arrays.asList(post1,post2)).when(gameSalePostRepository).findAllPostsByUser(1L);
-        List<GameSalePost> result= gameSalePostService.getAllPostByUser(1L);
-        Assertions.assertEquals(2,result.size(),"findAllPostsByUser should return 2 posts");
-    }
+//    @Test
+//    void getAllPostByUser() {
+//        GameSalePost post1= new GameSalePost(userProfile1,games1,500,"Yau Tong Station","Trade at 7:OO","12345678");
+//        GameSalePost post2= new GameSalePost(userProfile1,games1,500,"Yau Tong Station","Trade at 7:OO","12345678");
+//        doReturn(Optional.of(userProfile1)).when(userProfileRepository).findById(1L);
+//        doReturn(Arrays.asList(post1,post2)).when(gameSalePostRepository).findAllPostsByUser(1L);
+//        List<GameSalePost> result= gameSalePostService.getAllPostByUser(1L);
+//        Assertions.assertEquals(2,result.size(),"findAllPostsByUser should return 2 posts");
+//    }
 
 //    @Test
 //    void addPosts() {
@@ -135,11 +135,11 @@ class GameSalePostServiceTest {
         Assertions.assertEquals(600,result.getPrice(),"The price should be changed to 600");
     }
 
-    @Test
-    void deletePosts() {
-        GameSalePost post1= new GameSalePost(userProfile1,games1,500,"Yau Tong Station","Trade at 7:OO","12345678");
-        doReturn(Optional.of(post1)).when(gameSalePostRepository).findById(0L);
-        String result= gameSalePostService.deletePosts(0L);
-        Assertions.assertEquals("Success deleting the post with id: 0",result,"The result should show successful");
-    }
+//    @Test
+//    void deletePosts() {
+//        GameSalePost post1= new GameSalePost(userProfile1,games1,500,"Yau Tong Station","Trade at 7:OO","12345678");
+//        doReturn(Optional.of(post1)).when(gameSalePostRepository).findById(0L);
+//        String result= gameSalePostService.deletePosts(0L);
+//        Assertions.assertEquals("Success deleting the post with id: 0",result,"The result should show successful");
+//    }
 }

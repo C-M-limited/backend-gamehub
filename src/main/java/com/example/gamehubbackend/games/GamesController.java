@@ -1,6 +1,5 @@
 package com.example.gamehubbackend.games;
 
-import com.example.gamehubbackend.game_sale_post.GameSalePost;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/v1/games")
@@ -47,6 +47,10 @@ public class GamesController {
     @GetMapping("/byKeyword")
     public Slice<Games> getGamesByKeyword(@RequestParam("keyword") String keyword, @RequestParam("page") int page){
         return gamesService.getGamesByKeyword(keyword,page);
+    }
+    @GetMapping("/byId/{game_id}")
+    public Optional<Games> getGamesById(@PathVariable("game_id")Long game_id){
+        return gamesService.getGamesById(game_id);
     }
 
     @CacheEvict(  allEntries=true)

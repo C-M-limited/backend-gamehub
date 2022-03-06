@@ -20,8 +20,8 @@ public interface GameSalePostRepository extends JpaRepository<GameSalePost,Long>
     @Query("SELECT new com.example.gamehubbackend.game_sale_post.customPackage.GameSalePostWithSellerLocationPrice(p.id,u.firstName,p.place_for_transaction,p.price,u.imageKey) FROM GameSalePost p LEFT JOIN p.games g LEFT JOIN p.userProfile u WHERE p.games.id=?1")
     List<?> findAllPostsByGames(Long games_id);
 
-    @Query("SELECT p FROM GameSalePost p WHERE p.userProfile.id=?1")
-    List<GameSalePost> findAllPostsByUser(Long user_id);
+    @Query("SELECT new com.example.gamehubbackend.game_sale_post.GameSaleResponseWithConsoleBrand(p, u.lastName, g.name, g.image_url,b.name) FROM GameSalePost p LEFT JOIN p.games g LEFT JOIN p.userProfile u LEFT JOIN g.console c LEFT JOIN c.console_brand b WHERE p.userProfile.id=?1")
+    List<?> findAllPostsByUser(Long user_id);
 
     @Query("SELECT new com.example.gamehubbackend.game_sale_post.GameSaleResponse(p, u.lastName, g.name, g.image_url) FROM GameSalePost p LEFT JOIN p.games g LEFT JOIN p.userProfile u WHERE g.console.console_brand.name = :category")
     Page<?> findAllPostWithCategoryWithSorting(String category, Pageable range);
@@ -29,7 +29,7 @@ public interface GameSalePostRepository extends JpaRepository<GameSalePost,Long>
     @Query("SELECT new com.example.gamehubbackend.game_sale_post.GameSaleResponse(p, u.lastName, g.name, g.image_url) FROM GameSalePost p LEFT JOIN p.games g LEFT JOIN p.userProfile u")
     Page<?> findAllPostWithSorting(Pageable range);
 
-    @Query("SELECT new com.example.gamehubbackend.game_sale_post.GameSaleResponse(p, u.lastName, g.name, g.image_url) FROM GameSalePost p LEFT JOIN p.games g LEFT JOIN p.userProfile u WHERE p.id=:game_sale_post_id")
+    @Query("SELECT new com.example.gamehubbackend.game_sale_post.customPackage.GameSalePostDeatils(p, u.lastName, g.name, g.image_url, u.imageKey) FROM GameSalePost p LEFT JOIN p.games g LEFT JOIN p.userProfile u WHERE p.id=:game_sale_post_id")
     List<?> findPostByGameSalePostID(Long game_sale_post_id);
 
     @Query("SELECT new com.example.gamehubbackend.game_sale_post.GameSaleResponseWithConsoleBrand(p, u.lastName, g.name, g.image_url,b.name) FROM GameSalePost p LEFT JOIN p.games g LEFT JOIN p.userProfile u LEFT JOIN g.console c LEFT JOIN c.console_brand b")

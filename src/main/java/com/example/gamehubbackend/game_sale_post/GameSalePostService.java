@@ -108,7 +108,7 @@ public class GameSalePostService {
         return gameSalePostRepository.findPostByGameSalePostID(game_sale_post_id);
     }
 
-    public List<GameSalePost> getAllPostByUser(Long user_id) {
+    public List<?> getAllPostByUser(Long user_id) {
         Optional<UserProfile> optionalUserProfile= userProfileRepository.findById(user_id);
         if (!optionalUserProfile.isPresent()){
             throw new IllegalStateException("User does not exits");
@@ -169,7 +169,7 @@ public class GameSalePostService {
 
     }
 
-    public String deletePosts(long posts_id) {
+    public String deletePosts(Long posts_id) {
         Optional<GameSalePost> gameSalePostOptional= gameSalePostRepository.findById(posts_id);
         if (!gameSalePostOptional.isPresent()){
             throw  new IllegalStateException("the posts with id "+posts_id+" does not exist");

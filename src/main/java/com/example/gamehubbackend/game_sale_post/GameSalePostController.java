@@ -47,7 +47,7 @@ public class GameSalePostController {
         return gameSalePostService.getPostByGameSalePostID(game_sale_post_id);
     }
     @GetMapping("user/{user_id}")
-    public  List<GameSalePost> getAllPostsByUser(@PathVariable("user_id") Long user_id){
+    public  List<?> getAllPostsByUser(@PathVariable("user_id") Long user_id){
         return gameSalePostService.getAllPostByUser(user_id);
     }
     @GetMapping("/fewPosts")
@@ -85,7 +85,7 @@ public class GameSalePostController {
     }
     @DeleteMapping("{posts_id}")
     @CacheEvict(key="#posts_id")
-    public String deletePosts(@RequestParam ("posts_id") long posts_id ){
+    public String deletePosts(@RequestParam ("posts_id") Long posts_id ){
         return gameSalePostService.deletePosts(posts_id);
     }
 
