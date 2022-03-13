@@ -5,7 +5,7 @@ env:
 phases:
   install:
     commands:
-      - yum update; yum install java-17-amazon-corretto-jdk
+      - yum update; yum install java-17-amazon-corretto-devel
       - update-alternatives --auto javac
       - update-alternatives --auto java
   build:
