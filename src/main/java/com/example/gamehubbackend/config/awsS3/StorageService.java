@@ -29,7 +29,7 @@ public class StorageService {
     public String uploadFile(MultipartFile file){
         String filename = file.getOriginalFilename();
         //check it is image
-        if (!filename.matches("^.*(png|jpg)$"))
+        if (!filename.matches("^.*(png|jpg|jpeg)$"))
             throw new IllegalStateException("Only png or jpg file is accepted");
         //generate unique file name
         File fileObj = convertMultiPartFileToFile(file);

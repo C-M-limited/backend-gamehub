@@ -1,6 +1,8 @@
 package com.example.gamehubbackend.registration;
 
-//import com.example.gamehubbackend.email.EmailSender;
+import com.example.gamehubbackend.email.EmailSender;
+import com.example.gamehubbackend.email.EmailService;
+import com.example.gamehubbackend.emailSender.EmailSenderService;
 import com.example.gamehubbackend.registration.token.ConfirmationToken;
 import com.example.gamehubbackend.registration.token.ConfirmationTokenService;
 import com.example.gamehubbackend.user_profile.UserProfile;
@@ -18,7 +20,8 @@ public class RegistrationService {
     private final UserProfileService userProfileService;
     private final EmailValidator emailValidator;
     private final ConfirmationTokenService confirmationTokenService;
-//    private final EmailSender emailSender;
+    private final EmailSender emailSender;
+    private final EmailSenderService emailSenderService;
 
     public String register(RegistrationRequest request) {
         boolean isValidEmail = emailValidator.test(request.getEmail());
@@ -35,10 +38,12 @@ public class RegistrationService {
                         UserRole.USER
                 )
         );
-        String link = "http://localhost:8080/api/v1/registration/confirms?token=" + token;
-//        emailSender.send(
-//                request.getEmail(),
-//                buildEmail(request.getFirstName(), link));
+        String link = "https://app.gamehub.link/api/v1/registration/confirms?token=" + token;
+        emailSenderService.setMailSender(
+                request.getEmail(),
+                buildEmail(request.getFirstName(), link),
+                "GameHub User Authorization");
+//        emailSender.send(request.getEmail(),buildEmail(request.getFirstName(),link));
         return token;
     }
 
