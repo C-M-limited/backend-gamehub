@@ -17,3 +17,5 @@ COPY target/gameHubBackend.jar app.jar
 #EXPOSE 8080
 #ADD target/gameHubBackend.jar gameHubBackend.jar
 #ENTRYPOINT ["java","-jar","gameHubBackend.jar"]
+
+#scp -i ~/Users/leeyathei/Documents/Project/GameHub/gameHubKeyPair.pem ~/Users/leeyathei/Documents/Project/GameHub/backend-gamehub/target/gameHubBackend.jar  ubuntu@ec2-3-1-49-27.ap-southeast-1.compute.amazonaws.com
