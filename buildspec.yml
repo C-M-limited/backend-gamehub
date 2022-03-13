@@ -1,5 +1,7 @@
 version: 0.2
-
+env:
+  variables:
+    JAVA_HOME: "/usr/lib/jvm/jdk-17/"
 phases:
   install:
     commands:
