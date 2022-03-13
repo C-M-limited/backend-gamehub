@@ -1,10 +1,11 @@
 version: 0.2
 env:
   variables:
-    JAVA_HOME: "/usr/lib/jvm/java-17-amazon-corretto/"
+    JAVA_HOME: "/usr/lib/jvm/java-17-amazon-corretto-devel/"
 phases:
   install:
     commands:
+      - sudo alternatives --config java
       - yum update; yum install java-17-amazon-corretto-devel
       - update-alternatives --auto javac
       - update-alternatives --auto java
