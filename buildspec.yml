@@ -1,9 +1,13 @@
 version: 0.2
-
+env:
+  variables:
+    JAVA_HOME: "/usr/lib/jvm/java-17-amazon-corretto/"
 phases:
   install:
-    runtime-versions:
-      java: corretto11
+    commands:
+      - apt-get update; apt-get install -y java-17-amazon-corretto-jdk
+      - update-alternatives --auto javac
+      - update-alternatives --auto java
   build:
     commands:
       - java -version
@@ -11,4 +15,3 @@ phases:
 artifacts:
   files:
     - '**/*'
-  base-directory: 'target/my-web-app'
