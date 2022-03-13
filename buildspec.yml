@@ -6,7 +6,7 @@ phases:
   install:
     commands:
       - alternatives --config java
-      - yum update; yum install java-17-amazon-corretto-devel
+      - yum update; yum -y install java-17-amazon-corretto-devel
       - update-alternatives --auto javac
       - update-alternatives --auto java
   build:
