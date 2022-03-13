@@ -1,7 +1,6 @@
 package com.example.gamehubbackend.registration;
 
-import com.example.gamehubbackend.email.EmailSender;
-import com.example.gamehubbackend.email.EmailService;
+//import com.example.gamehubbackend.email.EmailSender;
 import com.example.gamehubbackend.emailSender.EmailSenderService;
 import com.example.gamehubbackend.registration.token.ConfirmationToken;
 import com.example.gamehubbackend.registration.token.ConfirmationTokenService;
@@ -20,7 +19,7 @@ public class RegistrationService {
     private final UserProfileService userProfileService;
     private final EmailValidator emailValidator;
     private final ConfirmationTokenService confirmationTokenService;
-    private final EmailSender emailSender;
+//    private final EmailSender emailSender;
     private final EmailSenderService emailSenderService;
 
     public String register(RegistrationRequest request) {
@@ -38,7 +37,7 @@ public class RegistrationService {
                         UserRole.USER
                 )
         );
-        String link = "https://app.gamehub.link/api/v1/registration/confirms?token=" + token;
+        String link = "https://app.gamehub.link/api/v1/registration/confirm?token=" + token;
         emailSenderService.setMailSender(
                 request.getEmail(),
                 buildEmail(request.getFirstName(), link),
@@ -55,13 +54,13 @@ public class RegistrationService {
                         new IllegalStateException("token not found"));
 
         if (confirmationToken.getConfirmedAt() != null) {
-            throw new IllegalStateException("email already confirmed");
+            return "email already confirmed";
         }
 
         LocalDateTime expiredAt = confirmationToken.getExpiredAt();
 
         if (expiredAt.isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("token expired");
+            return "token expired";
         }
 
         confirmationTokenService.setConfirmedAt(token);
