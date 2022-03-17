@@ -82,7 +82,7 @@ class GamesServiceTest {
     }
 
     @Test
-    void addGames() {
+    void addGames() throws Exception {
         doReturn(Optional.of(consoleBrand1)).when(consoleBrandRepository).findById(0);
         doReturn(Optional.of(console1)).when(consoleRepository).findConsoleByID(0);
         Games games1= new Games("GTA 5","image_url",console1);

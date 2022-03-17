@@ -90,7 +90,7 @@ public class GamesService {
 
     //@CacheEvict(  allEntries=true)
 //    @CachePut(key="#game.id")
-    public Games addGames(String name, MultipartFile image, int console_id) {
+    public Games addGames(String name, MultipartFile image, int console_id) throws Exception {
         //check console is exist
         Optional<Console> optionalConsole = consoleRepository.findConsoleByID(console_id);
         if (!optionalConsole.isPresent()) {
@@ -101,23 +101,7 @@ public class GamesService {
         if (gamesOptional.isPresent()){
             throw  new IllegalStateException("the games already exist");
         }
-//        //check the file type
-//        String filename = image.getOriginalFilename();
-//        if (!filename.matches("^.*(png)$")){
-//            throw new IllegalStateException("Only png file is accepted");
-//        }
-//
-//        //generate unique file name
-//        Random random = new Random();
-//        String newFileName = String.format("%s%s",System.currentTimeMillis(),random.nextInt(100000)+".png");
-//        String pathName = env.getProperty("imageLocation")+ newFileName;
-//        //save the image
-//        try{
-//            byte[] bytes = image.getBytes();
-//            Files.write(Paths.get(pathName), bytes);
-//        } catch (IOException e) {
-//            throw  new IllegalStateException("the image uploading fail");
-//        }
+        //upload Image
         String pathName = storageService.uploadFile(image);
         //save the game object
         Games game = new Games();

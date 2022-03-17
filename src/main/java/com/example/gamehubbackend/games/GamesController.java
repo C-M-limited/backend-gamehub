@@ -55,7 +55,7 @@ public class GamesController {
 
     @CacheEvict(  allEntries=true)
     @PostMapping(path="")
-    public Games addGames(@RequestParam String name,@RequestParam MultipartFile image, @RequestParam int console_id){
+    public Games addGames(@RequestParam String name,@RequestParam MultipartFile image, @RequestParam int console_id) throws Exception {
         return gamesService.addGames(name, image, console_id);
     }
     @CachePut( key="#games_id")
