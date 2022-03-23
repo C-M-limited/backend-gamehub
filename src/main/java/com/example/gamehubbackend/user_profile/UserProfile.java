@@ -50,7 +50,7 @@ public class UserProfile implements UserDetails {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set<GameSalePost> gameSalePosts;
 
-    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set<SubscribedPost> subscribedPosts;
     // For testing use

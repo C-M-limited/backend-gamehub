@@ -46,11 +46,11 @@ public class GameSalePost implements Serializable {
     private String description;
     private String contact_method;
 
-    @OneToMany(mappedBy = "gameSalePost", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "gameSalePost", orphanRemoval = true,  cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set<SubscribedPost> subscribedPosts;
 
-    @OneToOne(mappedBy = "gameSalePost")
+    @OneToOne(mappedBy = "gameSalePost", orphanRemoval = true,  cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private PostClickRate postClickRate;
 
