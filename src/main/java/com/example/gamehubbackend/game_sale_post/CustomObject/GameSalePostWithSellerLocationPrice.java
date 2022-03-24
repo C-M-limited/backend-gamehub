@@ -1,6 +1,5 @@
-package com.example.gamehubbackend.game_sale_post.customPackage;
+package com.example.gamehubbackend.game_sale_post.CustomObject;
 
-import com.example.gamehubbackend.game_sale_post.GameSalePost;
 import lombok.*;
 @Data
 @AllArgsConstructor

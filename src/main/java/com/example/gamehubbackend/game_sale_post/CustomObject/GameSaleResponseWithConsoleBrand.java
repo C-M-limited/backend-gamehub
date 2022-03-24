@@ -1,16 +1,17 @@
-package com.example.gamehubbackend.subscribed_post.CusotomPackage;
+package com.example.gamehubbackend.game_sale_post.CustomObject;
 
 import com.example.gamehubbackend.game_sale_post.GameSalePost;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+
+import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class allSubscribedPostObject {
+@Getter
+@Setter
+public class GameSaleResponseWithConsoleBrand implements Serializable {
     private GameSalePost game_sale_post;
     private String user_name;
     private String game_name;

@@ -1,6 +1,7 @@
-package com.example.gamehubbackend.game_sale_post;
+package com.example.gamehubbackend.game_sale_post.CustomObject;
 
-import com.example.gamehubbackend.user_profile.UserProfile;
+
+import com.example.gamehubbackend.game_sale_post.GameSalePost;
 import lombok.*;
 
 @Data
@@ -9,9 +10,10 @@ import lombok.*;
 @ToString
 @Getter
 @Setter
-public class GameSaleResponse {
+public class GameSalePostDeatils {
     private GameSalePost game_sale_post;
     private String user_name;
     private String game_name;
     private String image_url;
+    private String user_image_key;
 }
