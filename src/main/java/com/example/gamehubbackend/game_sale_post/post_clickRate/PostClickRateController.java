@@ -18,7 +18,7 @@ public class PostClickRateController {
         this.postClickRateService = postClickRateService;
     }
     @GetMapping
-    @Cacheable
+    @Cacheable(cacheManager ="1days")
     public Slice<?> getTodaysPick(){
         return postClickRateService.getTodaysPick();
     }
