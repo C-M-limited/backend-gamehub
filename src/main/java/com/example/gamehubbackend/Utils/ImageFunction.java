@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 @Slf4j
 public class ImageFunction {
@@ -26,7 +26,7 @@ public class ImageFunction {
     public static BufferedImage convertMultipartFile(MultipartFile file) {
         BufferedImage srcImage = null;
         try {
-            FileInputStream in = (FileInputStream) file.getInputStream();
+            InputStream in = (InputStream) file.getInputStream();
             srcImage = javax.imageio.ImageIO.read(in);
 
         } catch (IOException e) {
