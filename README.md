@@ -1,4 +1,13 @@
 # backend-gamehub
+## ERD Diagram:
+<img src="https://github.com/C-M-limited/backend-gamehub/blob/main/README_IMG/Game_Hub_ERD.png" width=3000 >
+
+## Design Idea:
+#### Register Page:
+<img src="https://github.com/C-M-limited/backend-gamehub/blob/main/README_IMG/Register.png" width=500 >
+
+#### User Profile Page"
+<img src="https://github.com/C-M-limited/backend-gamehub/blob/main/README_IMG/Profile.png" width=500 >
 
 ## Docker DataBase SetUp:
 ### Postgres:
