@@ -14,7 +14,7 @@ public class GamehubBackendApplication {
 	public static void main(String[] args) {
 
 		SpringApplication.run(GamehubBackendApplication.class, args);
-		System.out.println("Server start running at port 8080");
+		System.out.println("Server start running at port 10000");
 	}
 	@GetMapping
 	public String getMessage(){
