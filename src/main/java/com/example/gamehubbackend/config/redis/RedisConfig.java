@@ -1,5 +1,6 @@
 package com.example.gamehubbackend.config.redis;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.cache.CacheManager;
@@ -21,12 +22,15 @@ import java.time.Duration;
 @AutoConfigureAfter(RedisAutoConfiguration.class)
 @EnableCaching
 public class RedisConfig {
+    @Value("${redis.url}")
+    private String redis_url;
+
     @Bean
     public JedisConnectionFactory redisConnectionFactory() {
         //Development
 //        RedisStandaloneConfiguration config = new RedisStandaloneConfiguration("localhost", 6379);
         //Deployment
-        RedisStandaloneConfiguration config = new RedisStandaloneConfiguration("redis", 6379);
+        RedisStandaloneConfiguration config = new RedisStandaloneConfiguration(redis_url, 6379);
         return new JedisConnectionFactory(config);
     }
 
