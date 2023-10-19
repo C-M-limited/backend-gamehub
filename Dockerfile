@@ -1,21 +1,23 @@
-# docker run --name gamehub_postgres -e POSTGRES_USER=user -e POSTGRES_PASSWORD=ubuntu -p 5432:5432 -d postgres
-# docker run --name pgadmin -e PGADMIN_DEFAULT_EMAIL=chrisleebed@gamil.com -e PGADMIN_DEFAULT_PASSWORD=ubuntu -p 5555:80 -d dpage/pgadmin4
-# docker run --name redis -p 6379:6379 -d redis
-# docker run -di --name gamehub_backend -p 8080:8080 game-hub-backend.jar
-# docker run --name jenkins -p 9191:8080 -p 50000:50000 -d -v jenkins_home:/var/jenkins_home jenkins/jenkins
-# docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name=myes docker.elastic.co/elasticsearch/elasticsearch:7.10.1
-# docker run --link myes:elasticsearch -p 5601:5601 docker.elastic.co/kibana/kibana:7.10.1
-#build image
-# docker build -t game-hub-backend.jar .
+# Use an OpenJDK base image for the build stage
+FROM openjdk:17-jdk AS build
 
-FROM openjdk:17
-COPY target/gameHubBackend.jar app.jar
+# Set the working directory
+WORKDIR /workspace/app
 
+# Copy the application code to the container
+COPY . .
 
+# Build the Spring Boot application
+RUN ./gradlew bootJar --no-daemon
 
-#VOLUME /tmp
-#EXPOSE 8080
-#ADD target/gameHubBackend.jar gameHubBackend.jar
-#ENTRYPOINT ["java","-jar","gameHubBackend.jar"]
+# Use a slim version of OpenJDK 19 for the run stage
+FROM openjdk:17-jdk-slim
 
-#scp -i ~/Users/leeyathei/Documents/Project/GameHub/gameHubKeyPair.pem ~/Users/leeyathei/Documents/Project/GameHub/backend-gamehub/target/gameHubBackend.jar  ubuntu@ec2-3-1-49-27.ap-southeast-1.compute.amazonaws.com
+# Expose port 8080
+EXPOSE 8080
+
+# Copy the built jar from the build stage
+COPY --from=build /workspace/app/build/libs/*.jar app.jar
+
+# Command to run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]
