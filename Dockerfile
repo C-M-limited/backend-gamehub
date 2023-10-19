@@ -20,6 +20,9 @@ FROM eclipse-temurin:17-jdk
 # ENV PORT=8080
 EXPOSE 8080
 
+# ENV PORT=6379
+EXPOSE 6379
+
 COPY --from=build /workspace/app/target/gameHubBackend.jar app.jar
 
 ENTRYPOINT ["java","-jar","app.jar"]
