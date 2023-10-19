@@ -3,6 +3,9 @@
 #
 FROM maven:3.8.3-openjdk-17 AS build
 
+# Set the working directory
+WORKDIR /workspace/app
+
 # Copy the application code to the container
 COPY . .
 
@@ -14,6 +17,6 @@ RUN mvn clean install
 #
 FROM eclipse-temurin:17-jdk-alpine
 VOLUME /tmp
-COPY target/*.jar app.jar
+COPY /workspace/app/target/*.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
 EXPOSE 8080
