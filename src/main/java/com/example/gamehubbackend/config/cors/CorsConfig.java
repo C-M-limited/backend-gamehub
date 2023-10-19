@@ -13,7 +13,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry){
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:3000","https://www.gamehub.link/")
+                        .allowedOrigins("http://localhost:3000","https://www.gamehub.link/", "https://stupendous-stroopwafel-452aba.netlify.app/")
                         .allowedMethods("*");
             }
         };
