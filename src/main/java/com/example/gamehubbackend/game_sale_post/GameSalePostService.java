@@ -59,22 +59,22 @@ public class GameSalePostService {
     public Page<?>  getPostsByPage(int page, int size, String sortBy, Boolean asc, String category) {
         Pageable range;
         if (sortBy.equals("id") && asc) {
-            range = PageRequest.of(0, 10, Sort.by("id").ascending());
+            range = PageRequest.of(page, size, Sort.by("id").ascending());
         }
         else if (sortBy.equals("id") && !asc) {
-            range = PageRequest.of(0, 10, Sort.by("id").descending());
+            range = PageRequest.of(page, size, Sort.by("id").descending());
         }
         else if (sortBy.equals("price") && asc) {
-            range = PageRequest.of(0, 10, Sort.by("price").ascending());
+            range = PageRequest.of(page, size, Sort.by("price").ascending());
         }
         else if (sortBy.equals("price") && !asc) {
-            range = PageRequest.of(0, 10, Sort.by("price").descending());
+            range = PageRequest.of(page, size, Sort.by("price").descending());
         }
         else if (sortBy.equals("created_date") && !asc) {
-            range = PageRequest.of(0, 10, Sort.by("created_date").descending());
+            range = PageRequest.of(page, size, Sort.by("created_date").descending());
         }
         else {
-            range = PageRequest.of(0, 10, Sort.by("id").ascending());
+            range = PageRequest.of(page, size, Sort.by("id").ascending());
         }
 
         if (category.equals("all")) {
