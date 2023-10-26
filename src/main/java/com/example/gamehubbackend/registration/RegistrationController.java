@@ -1,14 +1,20 @@
 package com.example.gamehubbackend.registration;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path="api/v1/registration")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RegistrationController {
+
     private final RegistrationService registrationService;
+
+    @Value("${frontend.url}")
+    private String frontend_url;
 
     @PostMapping
     public String register(@RequestBody RegistrationRequest request) {
@@ -23,7 +29,7 @@ public class RegistrationController {
                     "<body>\n" +
                     "<h1>Congrats ! You have successfully confirm your accounct!</h1>\n"+
                     "<h2>Click The Following Button to return to GameHub</h2>\n"+
-                    "<a href='https://www.gamehub.link'>Click me</a>\n"+
+                    "<a href='" + frontend_url + "'>Click me</a>\n"+
                     "</body>\n" + "</html>";
         }
         return "<html>\n" + "<header><title>Game Hub Registration Confirm</title></header>\n" +

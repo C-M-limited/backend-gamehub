@@ -1,6 +1,8 @@
 package com.example.gamehubbackend.registration;
 
 //import com.example.gamehubbackend.email.EmailSender;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import com.example.gamehubbackend.emailSender.EmailSenderService;
 import com.example.gamehubbackend.registration.token.ConfirmationToken;
 import com.example.gamehubbackend.registration.token.ConfirmationTokenService;
@@ -8,14 +10,19 @@ import com.example.gamehubbackend.user_profile.UserProfile;
 import com.example.gamehubbackend.user_profile.UserProfileService;
 import com.example.gamehubbackend.user_profile.UserRole;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RegistrationService {
+
+    @Value("${backend.url}")
+    private String backend_url;
+
     private final UserProfileService userProfileService;
     private final EmailValidator emailValidator;
     private final ConfirmationTokenService confirmationTokenService;
@@ -37,7 +44,7 @@ public class RegistrationService {
                         UserRole.USER
                 )
         );
-        String link = "https://app.gamehub.link/api/v1/registration/confirm?token=" + token;
+        String link = backend_url + "/api/v1/registration/confirm?token=" + token;
         emailSenderService.setMailSender(
                 request.getEmail(),
                 buildEmail(request.getFirstName(), link),

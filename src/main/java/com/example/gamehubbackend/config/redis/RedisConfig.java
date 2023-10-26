@@ -27,9 +27,6 @@ public class RedisConfig {
 
     @Bean
     public JedisConnectionFactory redisConnectionFactory() {
-        //Development
-//        RedisStandaloneConfiguration config = new RedisStandaloneConfiguration("localhost", 6379);
-        //Deployment
         RedisStandaloneConfiguration config = new RedisStandaloneConfiguration(redis_url, 6379);
         return new JedisConnectionFactory(config);
     }
