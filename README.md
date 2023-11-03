@@ -21,7 +21,8 @@ The GameHub is our answer to these gaming woes. Designed by gamers, for gamers, 
 ## Development Log
 <ul>
   <li><span>2023 - 10 - 25:  </span> UI enhancement, switching from dark theme to light theme</li>
-  <li><span>2023 - 10 - 19:  </span> Switching backend hosting platform from AWS to Render, storage platform from AWS to Supabase</li>
+  <li><span>2023 - 10 - 19:  </span> Switching backend hosting platform from AWS to Render</li>
+  <li><span>2023 - 10 - 19:  </span> Switching storage hosting platform from AWS to Supabase</li>
   <li><span>2022 - 02 - 27:  </span> Add counting post click rate function</li>
   <li><span>2022 - 02 - 11:  </span> Add Subscribe Post function</li>
   <li><span>2022 - 02 - 05:  </span> First Version Released</li>
