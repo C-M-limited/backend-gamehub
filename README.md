@@ -45,9 +45,13 @@ The GameHub is our answer to these gaming woes. Designed by gamers, for gamers, 
 
 ## Docker DataBase SetUp:
 ### Postgres:
+```
 docker run --name gamehub_postgres -e POSTGRES_USER=user -e POSTGRES_PASSWORD=ubuntu -p 5432:5432 -d postgres
+```
 ### Pgadmin 
+```
 docker run --name pgadmin -e PGADMIN_DEFAULT_EMAIL=chrisleebed@gmail.com -e PGADMIN_DEFAULT_PASSWORD=ubuntu -p 5555:80 -d dpage/pgadmin4
+```
 #### Pgadmin connection to postgres 
 <img src="https://github.com/C-M-limited/backend-gamehub/blob/main/README_IMG/Pgadmin%20%26%20Postgres%20connect.png" width=300 >
 
